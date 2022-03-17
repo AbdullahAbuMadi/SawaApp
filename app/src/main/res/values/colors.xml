@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--    added-->
+    <color name="all_destination_background">#FFF4E3</color>
+    <color name="retail_destination_background">#E3F0FF</color>
+    <color name="health_destination_background">#E3FCFF</color>
+    <color name="banks_destination_background">#E3FFEB</color>
+    <color name="government_destination_background">#FFF4E3</color>
+    <color name="entertain_destination_background">#FFEBEB</color>
+    <color name="telecom_destination_background">#FAEBFF</color>
+    <color name="education_destination_background">#FEE3FF</color>
+    <color name="travel_destination_background">#E9E3FF</color>
+    <color name="insurance_destination_background">#E3F0FF</color>
+
+    <!--    crowding-->
+    <color name="crowding_background">#ED625D</color>
+    <color name="moderate_background">#FF9732</color>
+    <color name="closed_background">#ADADAD</color>
+    <color name="light_background">#94D67C</color>
+
+    <color name="disabled_checkbox">#707070</color>
+
+
+
+    <!--color of itl w.o focus >> should be this name >>do like overriding-->
+    <color name="mtrl_textinput_default_box_stroke_color">#FFFFFFFF</color>
+</resources>

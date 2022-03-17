@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SawaApp</string>
+    <string name="tap_to_check_in">اضغط هنا لمسح الكود !</string>
+    <string name="favorites_menu">مفضلاتي</string>
+    <string name="history_menu">السجل</string>
+    <string name="language_menu">اللغة</string>
+    <string name="theme_menu">الثيمات</string>
+    <string name="logout_menu">تسجيل الخروج</string>
+    <string name="where_to_hint">الوجهة؟</string>
+    <string name="nearby_places">الأماكن المجاورة</string>
+    <string name="all_dest">الكل</string>
+    <string name="retail_dest">متاجر</string>
+    <string name="health_dest">صحة</string>
+    <string name="banks_dest">بنوك</string>
+    <string name="government_dest">مواقع حكومية</string>
+    <string name="entertaiment_dest">ترفيه</string>
+    <string name="telecommunication_dest">اتصالات</string>
+    <string name="education_dest">تعليم</string>
+    <string name="travel_dest">سفر</string>
+    <string name="insurance_dest">تأمين</string>
+    <string name="blue">أزرق</string>
+    <string name="pink">زهري</string>
+    <string name="scan_something">امسح الكود ...</string>
+</resources>

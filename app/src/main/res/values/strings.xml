@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">SawaApp</string>
+    <string name="tap_to_check_in">Tap To Check-In</string>
+    <string name="favorites_menu">Favorites</string>
+    <string name="history_menu">History</string>
+    <string name="language_menu">Language</string>
+    <string name="theme_menu">Theme</string>
+    <string name="logout_menu">Logout</string>
+    <string name="where_to_hint">Where to?</string>
+    <string name="nearby_places">nearby_places</string>
+
+
+    <string name="all_dest">All</string>
+    <string name="retail_dest">Retail</string>
+    <string name="health_dest">Health</string>
+    <string name="banks_dest">Banks</string>
+    <string name="government_dest">Government</string>
+    <string name="entertaiment_dest">Entertainment</string>
+    <string name="telecommunication_dest">Telecommunication</string>
+    <string name="education_dest">Education</string>
+    <string name="travel_dest">Travel</string>
+    <string name="insurance_dest">Insurance</string>
+    <string name="blue">Blue</string>
+    <string name="pink">Pink</string>
+    <string name="scan_something">Scan something...</string>
+
+
+</resources>

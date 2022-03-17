@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="30dp"
+    android:orientation="horizontal"
+    android:theme="@style/NoActionBarTheme">
+
+    <CheckBox
+        android:id="@+id/blue_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text="@string/blue"
+        android:textSize="14sp" />
+
+    <CheckBox
+        android:id="@+id/pink_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:textColor="#13275E"
+        android:fontFamily="@font/poppins"
+        android:text="@string/pink"
+        android:textSize="14sp" />
+</LinearLayout>

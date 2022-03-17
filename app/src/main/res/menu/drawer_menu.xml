@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:id="@+id/menu_favorites">
+        <item
+            android:id="@+id/favorites_tap"
+            android:icon="@drawable/ic_favorites"
+            android:title="@string/favorites_menu" />
+
+    </group>
+    <group android:id="@+id/menu_history">
+        <item
+            android:id="@+id/history_tap"
+            android:icon="@drawable/ic_history"
+            android:title="@string/history_menu" />
+
+    </group>
+    <group android:id="@+id/menu_language">
+        <item
+            android:id="@+id/language_tap"
+            android:icon="@drawable/ic_language"
+            android:title="@string/language_menu" />
+
+        <item
+            android:title="@null"
+            android:id="@+id/languagesCheckBoxes"
+            app:actionLayout="@layout/languages_checkboxes" />
+    </group>
+    <group android:id="@+id/menu_theme">
+        <item
+            android:id="@+id/theme_tap"
+            android:icon="@drawable/ic_theme"
+            android:title="@string/theme_menu" />
+
+        <item
+            android:title="@null"
+            android:id="@+id/themesCheckBoxes"
+            app:actionLayout="@layout/themes_checkboxes" />
+    </group>
+    <group android:id="@+id/menu_logout">
+        <item
+            android:id="@+id/logout_tap"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/logout_menu" />
+    </group>
+</menu>
