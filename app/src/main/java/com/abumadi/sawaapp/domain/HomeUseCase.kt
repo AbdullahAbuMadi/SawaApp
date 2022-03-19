@@ -1,4 +1,15 @@
 package com.abumadi.sawaapp.domain
 
-class HomeUseCase {
+import android.content.Context
+import android.provider.SyncStateContract
+import com.abumadi.sawaapp.data.source.AppRepository
+import com.abumadi.sawaapp.others.Constants
+import javax.inject.Inject
+
+class HomeUseCase @Inject constructor(private val appRepository: AppRepository) {
+
+    fun themeCheckboxExecuted(key: String): Boolean {
+        return appRepository.getCheckedThemeCheckboxes(key)
+    }
+
 }

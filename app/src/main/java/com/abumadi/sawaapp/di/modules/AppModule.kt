@@ -1,22 +1,22 @@
 package com.abumadi.sawaapp.di.modules
 
-import android.app.Application
 import android.content.Context
 import com.abumadi.sawaapp.data.source.AppRepository
-import com.abumadi.sawaapp.domain.BaseUseCase
+import com.abumadi.sawaapp.db.SharedPreferencesDb
+import com.abumadi.sawaapp.domain.HomeUseCase
 import com.abumadi.sawaapp.domain.SplashUseCase
 import dagger.Module
 import dagger.Provides
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
-class AppModule @Inject constructor(private val context: Context) {
+class AppModule(private val context: Context) {
 
     @Singleton
     @Provides
     fun provideAppRepository(
-    ) = AppRepository(context)
+        db: SharedPreferencesDb
+    ) = AppRepository(db, context)
 
 
     @Singleton
@@ -25,21 +25,21 @@ class AppModule @Inject constructor(private val context: Context) {
         appRepository: AppRepository
     ) = SplashUseCase(appRepository)
 
+    @Singleton
+    @Provides
+    fun provideHomeUseCase(
+        appRepository: AppRepository
+    ) = HomeUseCase(appRepository)
+
 
     @Singleton
     @Provides
-    fun provideBaseUseCase(
-        appRepository: AppRepository
-    ) = BaseUseCase(appRepository)
+    fun provideSharedPreferenceDb(
+    ) = SharedPreferencesDb()
 
     @Singleton
     @Provides
     fun provideContext(): Context {
         return context
     }
-
-    @Singleton
-    @Provides
-    fun provideApplication(
-    ) = Application()
 }

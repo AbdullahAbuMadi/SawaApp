@@ -1,5 +1,8 @@
 package com.abumadi.sawaapp.others
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+
 //Locale.setDefault(locale)
 
 // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//check if sdk >lollipop
@@ -19,3 +22,25 @@ package com.abumadi.sawaapp.others
 //    @Provides
 //    fun provideApplication(
 //    ) = Application()
+
+
+//
+//class RefreshableLiveData<T>(
+//    private val source: () -> LiveData<T>
+//) : MediatorLiveData<T>() {
+//
+//    private var liveData = source()
+//
+//    init {
+//        this.addSource(liveData, ::observer)
+//    }
+//
+//    private fun observer(data: T) {
+//        value = data
+//    }
+//
+//    fun refresh() {
+//        this.removeSource(liveData)
+//        liveData = source()
+//        this.addSource(liveData, ::observer)
+//    }

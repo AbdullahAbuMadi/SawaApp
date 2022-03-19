@@ -12,9 +12,9 @@ object Constants {
 
     const val ARABIC_LANGUAGE_LOCALE = "ar"
     const val ENGLISH_LANGUAGE_LOCALE = "en"
-    const val THEME_BLUE = 2
-    const val THEME_PINK = 1
-    const val DEFAULT_THEME = 0
+    const val THEME_BLUE = "blue"
+    const val THEME_PINK = "pink"
+    const val DEFAULT_THEME = "default"
     const val DEFAULT_LANGUAGE = "default language"
 
     const val BLUE_CHECKBOX_CHECKED = "blue checkbox checked"
