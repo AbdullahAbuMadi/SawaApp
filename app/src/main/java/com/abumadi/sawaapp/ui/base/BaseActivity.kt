@@ -3,6 +3,7 @@ package com.abumadi.sawaapp.ui.base
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.abumadi.sawaapp.db.SharedPreferencesDb
 import com.abumadi.sawaapp.di.component.DaggerAppComponent
@@ -92,11 +93,12 @@ open class BaseActivity : AppCompatActivity() {
     fun recreateActivity() {
         val intent = intent
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        finish()
 
-        overridePendingTransition(0, 0)
+        finish()
+        overridePendingTransition (0, 0)
         startActivity(intent)
         overridePendingTransition(0, 0)
     }
+
 }
 

@@ -44,3 +44,8 @@ import androidx.lifecycle.MediatorLiveData
 //        liveData = source()
 //        this.addSource(liveData, ::observer)
 //    }
+
+/**
+ * I faced a problem:checkboxes with setOn changed listener and recreate activity>>infinite loop
+ * solved>> use on click instead
+ * **/

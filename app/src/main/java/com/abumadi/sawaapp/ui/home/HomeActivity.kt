@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.MenuItemCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.data.constantsclasses.Destinations
 import com.abumadi.sawaapp.data.constantsclasses.Places
@@ -28,9 +29,8 @@ import kotlinx.android.synthetic.main.bottom_sheet.*
 import kotlinx.android.synthetic.main.languages_checkboxes.view.*
 import kotlinx.android.synthetic.main.themes_checkboxes.view.*
 
-//TODO view model
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, TextWatcher,
-    View.OnTouchListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+    View.OnTouchListener, View.OnClickListener {
 
     private lateinit var mDrawerLayout: DrawerLayout
     private lateinit var mNavigationView: NavigationView
@@ -38,11 +38,14 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var pinkCheckbox: CompoundButton
     private lateinit var arabicCheckbox: CompoundButton
     private lateinit var englishCheckbox: CompoundButton
+    private lateinit var homeViewModel: HomeViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        homeViewModelSetUp()
         navDrawerSetUp()
         toolbarSetUp()
         navViewHeaderClick()
@@ -53,6 +56,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         mNavigationView.setNavigationItemSelectedListener(this)
         where_to_ed.addTextChangedListener(this)
         check_in_button.setOnClickListener(this)
+    }
+
+    private fun homeViewModelSetUp() {
+        homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
     }
 
     private fun navDrawerSetUp() {
@@ -158,25 +165,23 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val languages = mNavigationView.menu.findItem(R.id.languagesCheckBoxes)
         englishCheckbox = MenuItemCompat.getActionView(languages).english_checkbox as CompoundButton
         arabicCheckbox = MenuItemCompat.getActionView(languages).arabic_checkbox as CompoundButton
-        languagesCheckboxesBehaviorHandle(arabicCheckbox, englishCheckbox)
+        englishCheckbox.setOnClickListener(this)
+        arabicCheckbox.setOnClickListener(this)
+        languagesCheckboxesBehaviorHandleObserve(arabicCheckbox, englishCheckbox)
     }
 
-    private fun languagesCheckboxesBehaviorHandle(
+    private fun languagesCheckboxesBehaviorHandleObserve(
         arabicCheckbox: CompoundButton,
         englishCheckbox: CompoundButton
     ) {
-        when {
-            db.getLanguagesChickBoxState(
-                applicationContext,Constants.ARAB_CHECKBOX_CHECKED
-            ) -> {
-                arabicCheckbox.isChecked = true
-            }
-            db.getLanguagesChickBoxState(applicationContext,Constants.ENG_CHECKBOX_CHECKED) -> {
-                englishCheckbox.isChecked = true
-            }
-        }
-        englishCheckbox.setOnCheckedChangeListener(this)
-        arabicCheckbox.setOnCheckedChangeListener(this)
+        homeViewModel.languageCheckboxesBehavior()
+        homeViewModel.isEnglishCheckboxChecked.observe(this, {
+            englishCheckbox.isChecked = true
+        })
+
+        homeViewModel.isArabicCheckboxChecked.observe(this, {
+            arabicCheckbox.isChecked = true
+        })
     }
 
 
@@ -184,78 +189,69 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val themes = mNavigationView.menu.findItem(R.id.themesCheckBoxes)
         blueCheckbox = MenuItemCompat.getActionView(themes).blue_checkbox as CompoundButton
         pinkCheckbox = MenuItemCompat.getActionView(themes).pink_checkbox as CompoundButton
-        themesCheckboxesBehaviorHandle(blueCheckbox, pinkCheckbox)
+        this.blueCheckbox.setOnClickListener(this)
+        this.pinkCheckbox.setOnClickListener(this)
+
+        themesCheckboxesBehaviorHandleObserve(blueCheckbox, pinkCheckbox)
     }
 
-    private fun themesCheckboxesBehaviorHandle(
+    private fun themesCheckboxesBehaviorHandleObserve(
         blueCheckbox: CompoundButton,
         pinkCheckbox: CompoundButton
     ) {
-        if (db.getThemesChickBoxState(applicationContext,Constants.BLUE_CHECKBOX_CHECKED)) {
+        homeViewModel.themeCheckboxesBehavior()
+        homeViewModel.isBlueCheckboxChecked.observe(this, {
             blueCheckbox.isChecked = true
             check_in_button.setImageResource(R.drawable.button_icon_blue)
             toolbar_logo.setImageResource(R.drawable.sawa_logo_blue)
-        } else if (db.getThemesChickBoxState(
-                applicationContext,Constants.PINK_CHECKBOX_CHECKED
-            )
-        ) {
+        })
+
+        homeViewModel.isPinkCheckboxChecked.observe(this, {
             pinkCheckbox.isChecked = true
             check_in_button.setImageResource(R.drawable.button_icon_pink)
             toolbar_logo.setImageResource(R.drawable.sawa_logo_pink)
-
-        }
-        this.blueCheckbox.setOnCheckedChangeListener(this)
-        this.pinkCheckbox.setOnCheckedChangeListener(this)
-    }
-
-
-    override fun onCheckedChanged(checkboxButton: CompoundButton?, isChecked: Boolean) {
-        when (checkboxButton?.id) {
-            R.id.english_checkbox -> {
-                if (isChecked) {
-                    db.saveLanguagesChickBoxState(
-
-                        applicationContext,Constants.ENG_CHECKBOX_CHECKED
-                    )
-                    db.setAppLanguage(applicationContext,Constants.ENGLISH_LANGUAGE_LOCALE)
-                    recreateActivity()
-                }
-            }
-            R.id.arabic_checkbox -> {
-                if (isChecked) {
-                    db.saveLanguagesChickBoxState(
-
-                        applicationContext,Constants.ARAB_CHECKBOX_CHECKED
-                    )
-                    db.setAppLanguage(applicationContext,Constants.ARABIC_LANGUAGE_LOCALE)
-                    recreateActivity()
-                }
-            }
-            R.id.blue_checkbox -> {
-                if (isChecked) {
-                    db.saveThemesChickBoxState(
-
-                        applicationContext,Constants.BLUE_CHECKBOX_CHECKED
-                    )
-                    db.setAppTheme(applicationContext,Constants.THEME_BLUE)
-                    recreateActivity()
-                }
-
-            }
-            R.id.pink_checkbox -> {
-                if (isChecked) {
-                    db.saveThemesChickBoxState(
-
-                        applicationContext,Constants.PINK_CHECKBOX_CHECKED
-                    )
-                    db.setAppTheme(applicationContext,Constants.THEME_PINK)
-                    recreateActivity()
-                }
-            }
-        }
+        })
     }
 
     override fun onClick(view: View?) {
-        startActivity(Intent(this, ScannerActivity::class.java))
+        when (view?.id) {
+            R.id.english_checkbox -> {
+                db.saveLanguagesChickBoxState(
+                    applicationContext, Constants.ENG_CHECKBOX_CHECKED
+                )
+                db.setAppLanguage(applicationContext, Constants.ENGLISH_LANGUAGE_LOCALE)
+                recreateActivity()
+            }
+
+            R.id.arabic_checkbox -> {
+                db.saveLanguagesChickBoxState(
+
+                    applicationContext, Constants.ARAB_CHECKBOX_CHECKED
+                )
+                db.setAppLanguage(applicationContext, Constants.ARABIC_LANGUAGE_LOCALE)
+                recreateActivity()
+            }
+
+            R.id.blue_checkbox -> {
+                db.saveThemesChickBoxState(
+
+                    applicationContext, Constants.BLUE_CHECKBOX_CHECKED
+                )
+                db.setAppTheme(applicationContext, Constants.THEME_BLUE)
+                recreateActivity()
+
+            }
+            R.id.pink_checkbox -> {
+                db.saveThemesChickBoxState(
+
+                    applicationContext, Constants.PINK_CHECKBOX_CHECKED
+                )
+                db.setAppTheme(applicationContext, Constants.THEME_PINK)
+                recreateActivity()
+            }
+            R.id.check_in_button -> {
+                startActivity(Intent(this, ScannerActivity::class.java))
+            }
+        }
     }
 }

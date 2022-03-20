@@ -8,8 +8,11 @@ import javax.inject.Inject
 
 class HomeUseCase @Inject constructor(private val appRepository: AppRepository) {
 
-    fun themeCheckboxExecuted(key: String): Boolean {
+    fun themeCheckboxStateExecuted(key: String): Boolean {
         return appRepository.getCheckedThemeCheckboxes(key)
     }
 
+    fun languageCheckboxStateExecuted(key: String): Boolean {
+        return appRepository.getCheckedLanguageCheckboxes(key)
+    }
 }
