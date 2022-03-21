@@ -30,9 +30,9 @@ class SplashViewModel @Inject constructor(private val splashUseCase: SplashUseCa
     }
 
     fun setCurrentSplashLogo() {
-        if (splashUseCase.getAppTheme() == Constants.THEME_PINK) {
+        if (splashUseCase.appThemeExecute() == Constants.THEME_PINK) {
             _currentSplashLogo.value = R.drawable.ic_sawa_logo_pink
-        } else if (splashUseCase.getAppTheme() == Constants.THEME_BLUE) {
+        } else if (splashUseCase.appThemeExecute() == Constants.THEME_BLUE) {
             _currentSplashLogo.value = R.drawable.ic_sawa_logo_blue
         }
     }

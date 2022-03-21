@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class SplashUseCase @Inject constructor(private val appRepository: AppRepository) {
 
-    fun getAppTheme(): String? {
+    fun appThemeExecute(): String? {
         return appRepository.getCurrentTheme()
     }
 }
