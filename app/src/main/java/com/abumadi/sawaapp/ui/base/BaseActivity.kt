@@ -3,7 +3,6 @@ package com.abumadi.sawaapp.ui.base
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.abumadi.sawaapp.db.SharedPreferencesDb
 import com.abumadi.sawaapp.di.component.DaggerAppComponent
@@ -13,8 +12,10 @@ import javax.inject.Inject
 import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.others.Constants
 
-//TODO con not make view model cuz setTheme function didn't accept to set inside live data observer
+//TODO can not make observe live data from view model cuz setTheme function didn't accept to set inside live data observer
 open class BaseActivity : AppCompatActivity() {
+
+    lateinit var baseViewModel: BaseViewModel
 
     @Inject
     lateinit var db: SharedPreferencesDb
@@ -25,8 +26,8 @@ open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
-
         daggerComponentSetUp()
+        baseViewModel = ViewModelProvider(this, viewModelFactory).get(BaseViewModel::class.java)
         updateAppThemeAndLanguage()
     }
 
@@ -36,42 +37,30 @@ open class BaseActivity : AppCompatActivity() {
         component.activitiesInject(this@BaseActivity)
     }
 
-
     private fun updateAppThemeAndLanguage() {
         setUpApplicationTheme()
         setUpApplicationLanguage()
     }
 
     private fun setUpApplicationTheme() {
-        if (db.getAppTheme(applicationContext) == Constants.DEFAULT_THEME) {
-            defaultThemeCheckedCheckbox()
-            setTheme(R.style.PinkStyle)
-        } else {
-            if (db.getAppTheme(applicationContext) == Constants.THEME_PINK) {
-                setTheme(R.style.PinkStyle)
-            } else if (db.getAppTheme(applicationContext) == Constants.THEME_BLUE) {
-                setTheme(R.style.BlueStyle)
-            }
-        }
+        baseViewModel.setAppTheme()
+        val defaultTheme = baseViewModel.getDefaultTheme()
+        defaultThemeCheckedCheckbox(defaultTheme)
+        val currentTheme = baseViewModel.getCurrentTheme()
+        setTheme(currentTheme ?: 0)
     }
 
-    private fun defaultThemeCheckedCheckbox() {
-        db.saveThemesChickBoxState(applicationContext, Constants.PINK_CHECKBOX_CHECKED)
+    private fun defaultThemeCheckedCheckbox(defaultTheme: Boolean?) {
+        if (defaultTheme == true)
+            db.saveThemesChickBoxState(applicationContext, Constants.PINK_CHECKBOX_CHECKED)
     }
 
     private fun setUpApplicationLanguage() {
-        if (db.getAppLanguage(applicationContext) == Constants.DEFAULT_LANGUAGE) {
-            defaultLanguageCheckedCheckbox()
-            setLanguage(Constants.ENGLISH_LANGUAGE_LOCALE)
-
-        } else {
-            if (db.getAppLanguage(applicationContext) == Constants.ENGLISH_LANGUAGE_LOCALE) {
-                setLanguage(Constants.ENGLISH_LANGUAGE_LOCALE)
-
-            } else if (db.getAppLanguage(applicationContext) == Constants.ARABIC_LANGUAGE_LOCALE) {
-                setLanguage(Constants.ARABIC_LANGUAGE_LOCALE)
-            }
-        }
+        baseViewModel.setAppLanguage()
+        val defaultLanguage = baseViewModel.getDefaultLanguage()
+        defaultLanguageCheckedCheckbox(defaultLanguage)
+        val currentLanguage = baseViewModel.getCurrentLanguage()
+        setLanguage(currentLanguage ?: "")
     }
 
     private fun setLanguage(locale: String) {
@@ -83,10 +72,12 @@ open class BaseActivity : AppCompatActivity() {
         )
     }
 
-    private fun defaultLanguageCheckedCheckbox() {
-        db.saveLanguagesChickBoxState(
-            applicationContext, Constants.ENG_CHECKBOX_CHECKED
-        )
+    private fun defaultLanguageCheckedCheckbox(defaultLanguage: Boolean?) {
+        if (defaultLanguage == true) {
+            db.saveLanguagesChickBoxState(
+                applicationContext, Constants.ENG_CHECKBOX_CHECKED
+            )
+        }
     }
 
     //recreate the activity
@@ -95,10 +86,18 @@ open class BaseActivity : AppCompatActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 
         finish()
-        overridePendingTransition (0, 0)
+        overridePendingTransition(0, 0)
         startActivity(intent)
         overridePendingTransition(0, 0)
     }
 
 }
+
+//      baseViewModel.setAppTheme()
+//        baseViewModel.currentTheme.observe(this, {
+//            this.setTheme(it)
+////            baseViewModel.refresh()
+//            Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show()
+//            Log.d("baseActivity", "setUpApplicationTheme:$it")
+//        })
 

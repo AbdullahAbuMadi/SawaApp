@@ -3,6 +3,7 @@ package com.abumadi.sawaapp.di.modules
 import android.content.Context
 import com.abumadi.sawaapp.data.source.AppRepository
 import com.abumadi.sawaapp.db.SharedPreferencesDb
+import com.abumadi.sawaapp.domain.BaseUseCase
 import com.abumadi.sawaapp.domain.HomeUseCase
 import com.abumadi.sawaapp.domain.SplashUseCase
 import dagger.Module
@@ -30,6 +31,13 @@ class AppModule(private val context: Context) {
     fun provideHomeUseCase(
         appRepository: AppRepository
     ) = HomeUseCase(appRepository)
+
+    ////////////
+    @Singleton
+    @Provides
+    fun provideBaseUseCase(
+        appRepository: AppRepository
+    ) = BaseUseCase(appRepository)
 
 
     @Singleton
