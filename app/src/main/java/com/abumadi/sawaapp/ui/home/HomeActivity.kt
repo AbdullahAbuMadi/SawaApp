@@ -38,7 +38,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
     }
 
-    private  val binding: ActivityHomeBinding by lazy {
+    private val binding: ActivityHomeBinding by lazy {
         ActivityHomeBinding.inflate(layoutInflater)
     }
     private lateinit var blueCheckbox: CompoundButton
@@ -60,6 +60,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         mNavigationView.setNavigationItemSelectedListener(this)
         binding.includeBottomSheet.whereToEd.addTextChangedListener(this)
         binding.checkInButton.setOnClickListener(this)
+        binding.includeBottomSheet.whereToEd.setOnTouchListener(this)
     }
 
     override fun onBackPressed() {
@@ -69,7 +70,12 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun navDrawerSetUp() {
 
-        mDrawerLayout.setScrimColor(ContextCompat.getColor(this, android.R.color.transparent))//no shadow
+        mDrawerLayout.setScrimColor(
+            ContextCompat.getColor(
+                this,
+                android.R.color.transparent
+            )
+        )//no shadow
     }
 
     private fun placesRecyclerViewSetUp() {
@@ -139,34 +145,32 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-    override fun afterTextChanged(viewText: Editable?) {
-        if (viewText?.toString()?.isEmpty() == true) {
+    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        if (binding.includeBottomSheet.whereToEd.text?.isNotEmpty() == true) {
             binding.includeBottomSheet.whereToEd.setCompoundDrawablesWithIntrinsicBounds(
-                null,
-                null,
-                ContextCompat.getDrawable(this, R.drawable.ic_search),
-                null
+                0,
+                0,
+                R.drawable.ic_remove,
+                0
             )
-
         } else {
             binding.includeBottomSheet.whereToEd.setCompoundDrawablesWithIntrinsicBounds(
-                null,
-                null,
-                ContextCompat.getDrawable(this, R.drawable.ic_remove),
-                null
+                0,
+                0,
+                R.drawable.ic_search,
+                0
             )
-            binding.includeBottomSheet.whereToEd.setOnTouchListener(this)
         }
     }
+
+    override fun afterTextChanged(viewText: Editable?) {}
 
     override fun onTouch(view: View?, event: MotionEvent?): Boolean {
 
         if (event?.action == MotionEvent.ACTION_UP) {//if click on remove
             binding.includeBottomSheet.whereToEd.editableText.clear()
         }
-        return true
+        return false
     }
 
     private fun languageCheckboxesInflate() {
