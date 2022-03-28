@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import com.abumadi.sawaapp.db.SharedPreferencesDb
+import com.abumadi.sawaapp.sharedpreference.SharedPreferencesManager
 import com.abumadi.sawaapp.di.component.DaggerAppComponent
 import com.abumadi.sawaapp.di.modules.AppModule
 import java.util.*
@@ -18,7 +18,7 @@ open class BaseActivity : AppCompatActivity() {
     lateinit var baseViewModel: BaseViewModel
 
     @Inject
-    lateinit var db: SharedPreferencesDb
+    lateinit var db: SharedPreferencesManager
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -52,7 +52,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun defaultThemeCheckedCheckbox(defaultTheme: Boolean?) {
         if (defaultTheme == true)
-            db.saveThemesChickBoxState(applicationContext, Constants.PINK_CHECKBOX_CHECKED)
+            db.saveThemesCheckBoxState(applicationContext, Constants.PINK_CHECKBOX_CHECKED)
     }
 
     private fun setUpApplicationLanguage() {
@@ -74,7 +74,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun defaultLanguageCheckedCheckbox(defaultLanguage: Boolean?) {
         if (defaultLanguage == true) {
-            db.saveLanguagesChickBoxState(
+            db.saveLanguagesCheckBoxState(
                 applicationContext, Constants.ENG_CHECKBOX_CHECKED
             )
         }
@@ -82,7 +82,7 @@ open class BaseActivity : AppCompatActivity() {
 
     //recreate the activity
     fun recreateActivity() {
-        val intent = intent
+        val intent = Intent(this,this::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 
         finish()
@@ -90,7 +90,6 @@ open class BaseActivity : AppCompatActivity() {
         startActivity(intent)
         overridePendingTransition(0, 0)
     }
-
 }
 
 //      baseViewModel.setAppTheme()

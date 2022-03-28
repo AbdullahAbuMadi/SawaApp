@@ -24,7 +24,7 @@
 
         <item
             android:title="@null"
-            android:id="@+id/languagesCheckBoxes"
+            android:id="@+id/languagesCheckBoxesMenuItems"
             app:actionLayout="@layout/languages_checkboxes" />
     </group>
     <group android:id="@+id/menu_theme">
@@ -35,7 +35,7 @@
 
         <item
             android:title="@null"
-            android:id="@+id/themesCheckBoxes"
+            android:id="@+id/themesCheckBoxesMenuItems"
             app:actionLayout="@layout/themes_checkboxes" />
     </group>
     <group android:id="@+id/menu_logout">

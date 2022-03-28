@@ -1,11 +1,11 @@
 package com.abumadi.sawaapp.data.source
 
 import android.content.Context
-import com.abumadi.sawaapp.db.SharedPreferencesDb
+import com.abumadi.sawaapp.sharedpreference.SharedPreferencesManager
 import javax.inject.Inject
 
 class AppRepository @Inject constructor(
-    private val db: SharedPreferencesDb,
+    private val db: SharedPreferencesManager,
     private val context: Context
 ) {
 
@@ -14,7 +14,7 @@ class AppRepository @Inject constructor(
     }
 
     fun getCheckedThemeCheckboxes(key: String): Boolean {
-        return db.getThemesChickBoxState(context, key)
+        return db.getThemesCheckBoxState(context, key)
     }
 
     fun getCurrentLanguage(): String? {
@@ -22,6 +22,6 @@ class AppRepository @Inject constructor(
     }
 
     fun getCheckedLanguageCheckboxes(key: String): Boolean {
-        return db.getLanguagesChickBoxState(context, key)
+        return db.getLanguagesCheckBoxState(context, key)
     }
 }

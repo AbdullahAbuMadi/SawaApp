@@ -7,7 +7,14 @@ import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
-class ViewModelFactory @Inject constructor(private val viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>) : ViewModelProvider.Factory {
+class ViewModelFactory @Inject constructor(private val viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>) :
+    ViewModelProvider.Factory {
 
-    override fun <T : ViewModel> create(modelClass: Class<T>): T = viewModels[modelClass]?.get() as T
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+
+        if (viewModels[modelClass]?.get() == null) {
+            throw IllegalArgumentException("unknown model class $modelClass")
+        }
+        return viewModels[modelClass]?.get() as T
+    }
 }

@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-                <include layout="@layout/app_tool_bar" />
+        <include
+            android:id="@+id/include_toolbar"
+            layout="@layout/app_tool_bar" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -37,8 +39,8 @@
                 android:alpha="0.6"
                 android:fontFamily="@font/poppins"
                 android:text="@string/tap_to_check_in"
-                android:textSize="21sp"
                 android:textColor="?attr/textColor"
+                android:textSize="21sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/check_in_button"
                 app:layout_constraintStart_toStartOf="@+id/check_in_button"
@@ -51,7 +53,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <include layout="@layout/bottom_sheet" />
+            <include
+                android:id="@+id/include_bottom_sheet"
+                layout="@layout/bottom_sheet" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -65,11 +69,11 @@
         android:clickable="false"
         android:fitsSystemWindows="false"
         android:padding="20dp"
-        app:itemIconTint="?attr/IconTint"
         app:dividerInsetEnd="5dp"
         app:dividerInsetStart="5dp"
         app:headerLayout="@layout/drawer_header"
         app:itemIconSize="20dp"
+        app:itemIconTint="?attr/IconTint"
         app:itemTextAppearance="@style/NavigationDrawerTextStyle"
         app:itemTextColor="#13275E"
         app:menu="@menu/drawer_menu">

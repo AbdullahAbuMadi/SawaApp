@@ -24,11 +24,10 @@ class BaseViewModel @Inject constructor(private val baseUseCase: BaseUseCase) : 
         } else {
             if (baseUseCase.appThemeExecute() == Constants.THEME_PINK) {
                 currentTheme = R.style.PinkStyle
-                isDefaultTheme = false
             } else if (baseUseCase.appThemeExecute() == Constants.THEME_BLUE) {
                 currentTheme = R.style.BlueStyle
-                isDefaultTheme = false
             }
+            isDefaultTheme = false
         }
     }
 

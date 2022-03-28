@@ -3,22 +3,24 @@ package com.abumadi.sawaapp.ui.splash
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import com.abumadi.sawaapp.R
+import androidx.lifecycle.lifecycleScope
+import com.abumadi.sawaapp.databinding.ActivitySplashBinding
 import com.abumadi.sawaapp.ui.base.BaseActivity
 import com.abumadi.sawaapp.ui.home.HomeActivity
-import kotlinx.android.synthetic.main.activity_splash.*
-import javax.inject.Inject
+import kotlinx.coroutines.delay
 
 class SplashActivity : BaseActivity() {
 
     private lateinit var splashViewModel: SplashViewModel
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         splashViewModelSetUp()
-        navigateObserve()
         currentSplashLogoObserve()
+        navigateToHomeActivity()
     }
 
     private fun splashViewModelSetUp() {
@@ -28,15 +30,15 @@ class SplashActivity : BaseActivity() {
     private fun currentSplashLogoObserve() {
         splashViewModel.setCurrentSplashLogo()
         splashViewModel.currentSplashLogo.observe(this, {
-            splash_sawa_logo.setImageResource(it)
+            binding.splashSawaLogo.setImageResource(it)
         })
     }
 
-    private fun navigateObserve() {
+    private fun navigateToHomeActivity() {
         val intent = Intent(this, HomeActivity::class.java)
-        splashViewModel.navigate()
-        splashViewModel.navigate.observe(this, {
+        lifecycleScope.launchWhenStarted {
+            delay(2_000)
             startActivity(intent)
-        })
+        }
     }
 }

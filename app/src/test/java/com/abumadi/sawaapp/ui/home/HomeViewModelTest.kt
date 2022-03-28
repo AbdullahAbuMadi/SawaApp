@@ -3,7 +3,7 @@ package com.abumadi.sawaapp.ui.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.abumadi.sawaapp.domain.HomeUseCase
 import com.abumadi.sawaapp.others.Constants
-import com.google.common.truth.Truth.assertThat
+import org.junit.Assert.*
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before
@@ -43,7 +43,7 @@ class HomeViewModelTest {
         every { homeUseCase.themeCheckboxStateExecuted(FAKE_BLUE_CHECKBOX_CHECKED_KEY) } returns false
         homeViewModel.themeCheckboxesBehavior()
         val result = homeViewModel.isPinkCheckboxChecked.value
-        assertThat(result).isTrue()
+        assertEquals(result, true)
     }
 
     //if themeCheckboxStateExecuted success and blue checkbox checked_isBlueCheckboxChecked live data value will be true
@@ -53,7 +53,7 @@ class HomeViewModelTest {
         every { homeUseCase.themeCheckboxStateExecuted(FAKE_PINK_CHECKBOX_CHECKED_KEY) } returns false
         homeViewModel.themeCheckboxesBehavior()
         val result = homeViewModel.isBlueCheckboxChecked.value
-        assertThat(result).isTrue()
+        assertEquals(result, true)
     }
 
     //if themeCheckboxStateExecuted success and pink checkbox checked_isPinkCheckboxChecked live data value will be true
@@ -63,7 +63,7 @@ class HomeViewModelTest {
         every { homeUseCase.themeCheckboxStateExecuted(FAKE_PINK_CHECKBOX_CHECKED_KEY) } returns true
         homeViewModel.themeCheckboxesBehavior()
         val result = homeViewModel.isPinkCheckboxChecked.value
-        assertThat(result).isTrue()
+        assertEquals(result, true)
     }
 
     //if themeCheckboxStateExecuted failed get checked checkbox_livedata values will be null
@@ -75,8 +75,8 @@ class HomeViewModelTest {
         homeViewModel.themeCheckboxesBehavior()
         val resultPink = homeViewModel.isPinkCheckboxChecked.value
         val resultBlue = homeViewModel.isBlueCheckboxChecked.value
-        assertThat(resultBlue).isEqualTo(null)
-        assertThat(resultPink).isEqualTo(null)
+        assertEquals(resultBlue, null)
+        assertEquals(resultPink, null)
     }
 
     //2-languageCheckboxesBehavior
@@ -87,8 +87,9 @@ class HomeViewModelTest {
         every { homeUseCase.languageCheckboxStateExecuted(FAKE_ARAB_CHECKBOX_CHECKED) } returns false
         homeViewModel.languageCheckboxesBehavior()
         val result = homeViewModel.isEnglishCheckboxChecked.value
-        assertThat(result).isTrue()
+        assertEquals(result, true)
     }
+
     //if languageCheckboxStateExecuted success and blue checkbox checked_isEnglishCheckboxChecked live data value will be true
     @Test
     fun languageCheckboxesBehavior_ifLanguageCheckboxStateExecutedSuccessfullyAndEnglishCheckboxChecked_isEnglishCheckboxCheckedLiveDataValueWillBeTrue() {
@@ -96,8 +97,9 @@ class HomeViewModelTest {
         every { homeUseCase.languageCheckboxStateExecuted(FAKE_ARAB_CHECKBOX_CHECKED) } returns false
         homeViewModel.languageCheckboxesBehavior()
         val result = homeViewModel.isEnglishCheckboxChecked.value
-        assertThat(result).isTrue()
+        assertEquals(result, true)
     }
+
     //if languageCheckboxStateExecuted success and pink checkbox checked _isArabicCheckboxChecked live data value will be true
     @Test
     fun languageCheckboxesBehavior_ifLanguageCheckboxStateExecutedSuccessfullyAndArabicCheckboxChecked_isArabicCheckboxCheckedLiveDataValueWillBeTrue() {
@@ -105,8 +107,9 @@ class HomeViewModelTest {
         every { homeUseCase.languageCheckboxStateExecuted(FAKE_ARAB_CHECKBOX_CHECKED) } returns true
         homeViewModel.languageCheckboxesBehavior()
         val result = homeViewModel.isArabicCheckboxChecked.value
-        assertThat(result).isTrue()
+        assertEquals(result, true)
     }
+
     //if languageCheckboxStateExecuted failed get checked checkbox_livedata values will be false
     @Test
     fun themeCheckboxesBehavior_ifLanguageCheckboxStateExecutedFailed_AllLiveDataWillBeNull() {
@@ -116,7 +119,7 @@ class HomeViewModelTest {
         homeViewModel.languageCheckboxesBehavior()
         val resultEnglish = homeViewModel.isEnglishCheckboxChecked.value
         val resultArabic = homeViewModel.isArabicCheckboxChecked.value
-        assertThat(resultArabic).isEqualTo(null)
-        assertThat(resultEnglish).isEqualTo(null)
+        assertEquals(resultArabic, null)
+        assertEquals(resultEnglish, null)
     }
 }

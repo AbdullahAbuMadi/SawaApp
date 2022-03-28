@@ -13,39 +13,43 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.MenuItemCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.data.constantsclasses.Destinations
 import com.abumadi.sawaapp.data.constantsclasses.Places
+import com.abumadi.sawaapp.databinding.ActivityHomeBinding
 import com.abumadi.sawaapp.others.Constants
 import com.abumadi.sawaapp.ui.base.BaseActivity
 import com.abumadi.sawaapp.ui.scanner.ScannerActivity
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.app_tool_bar.*
-import kotlinx.android.synthetic.main.bottom_sheet.*
-import kotlinx.android.synthetic.main.languages_checkboxes.view.*
-import kotlinx.android.synthetic.main.themes_checkboxes.view.*
+
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, TextWatcher,
     View.OnTouchListener, View.OnClickListener {
 
-    private lateinit var mDrawerLayout: DrawerLayout
-    private lateinit var mNavigationView: NavigationView
+    private val mDrawerLayout: DrawerLayout by lazy {
+        findViewById(R.id.drawer)
+    }
+    private val mNavigationView: NavigationView by lazy {
+        findViewById(R.id.nav_view)
+    }
+    private val homeViewModel: HomeViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+    }
+
+    private  val binding: ActivityHomeBinding by lazy {
+        ActivityHomeBinding.inflate(layoutInflater)
+    }
     private lateinit var blueCheckbox: CompoundButton
     private lateinit var pinkCheckbox: CompoundButton
     private lateinit var arabicCheckbox: CompoundButton
     private lateinit var englishCheckbox: CompoundButton
-    private lateinit var homeViewModel: HomeViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(binding.root)
 
-        homeViewModelSetUp()
         navDrawerSetUp()
         toolbarSetUp()
         navViewHeaderClick()
@@ -54,28 +58,32 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         languageCheckboxesInflate()
         themesCheckboxesInflate()
         mNavigationView.setNavigationItemSelectedListener(this)
-        where_to_ed.addTextChangedListener(this)
-        check_in_button.setOnClickListener(this)
+        binding.includeBottomSheet.whereToEd.addTextChangedListener(this)
+        binding.checkInButton.setOnClickListener(this)
     }
 
-    private fun homeViewModelSetUp() {
-        homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+    override fun onBackPressed() {
+        finishAffinity()
+        super.onBackPressed()
     }
 
     private fun navDrawerSetUp() {
-        mDrawerLayout = findViewById(R.id.drawer)
-        mDrawerLayout.setScrimColor(resources.getColor(android.R.color.transparent))//no shadow
-        mNavigationView = findViewById(R.id.nav_view)
+
+        mDrawerLayout.setScrimColor(ContextCompat.getColor(this, android.R.color.transparent))//no shadow
     }
 
     private fun placesRecyclerViewSetUp() {
-        places_rv.adapter = PlacesAdapter(this, Places.getPlacesList())
+        binding.includeBottomSheet.placesRv.adapter = PlacesAdapter(this, Places.getPlacesList())
     }
 
     private fun destinationRecyclerViewSetUp() {
-        destination_rv.adapter = DestinationsAdapter(this, Destinations.getDestinationsList(this))
+        binding.includeBottomSheet.destinationRv.adapter =
+            DestinationsAdapter(this, Destinations.getDestinationsList(this))
         //to solve two recyclerview in same bottomSheet problem
-        androidx.core.view.ViewCompat.setNestedScrollingEnabled(destination_rv, false)
+        androidx.core.view.ViewCompat.setNestedScrollingEnabled(
+            binding.includeBottomSheet.destinationRv,
+            false
+        )
     }
 
     private fun navViewHeaderClick() {
@@ -87,7 +95,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun toolbarSetUp() {
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.includeToolbar.toolbar)
         val actionbar = supportActionBar
         if (actionbar != null) {
             actionbar.title = ""
@@ -135,7 +143,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun afterTextChanged(viewText: Editable?) {
         if (viewText?.toString()?.isEmpty() == true) {
-            where_to_ed.setCompoundDrawablesWithIntrinsicBounds(
+            binding.includeBottomSheet.whereToEd.setCompoundDrawablesWithIntrinsicBounds(
                 null,
                 null,
                 ContextCompat.getDrawable(this, R.drawable.ic_search),
@@ -143,28 +151,30 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             )
 
         } else {
-            where_to_ed.setCompoundDrawablesWithIntrinsicBounds(
+            binding.includeBottomSheet.whereToEd.setCompoundDrawablesWithIntrinsicBounds(
                 null,
                 null,
                 ContextCompat.getDrawable(this, R.drawable.ic_remove),
                 null
             )
-            where_to_ed.setOnTouchListener(this)
+            binding.includeBottomSheet.whereToEd.setOnTouchListener(this)
         }
     }
 
     override fun onTouch(view: View?, event: MotionEvent?): Boolean {
 
         if (event?.action == MotionEvent.ACTION_UP) {//if click on remove
-            where_to_ed.editableText.clear()
+            binding.includeBottomSheet.whereToEd.editableText.clear()
         }
         return true
     }
 
     private fun languageCheckboxesInflate() {
-        val languages = mNavigationView.menu.findItem(R.id.languagesCheckBoxes)
-        englishCheckbox = MenuItemCompat.getActionView(languages).english_checkbox as CompoundButton
-        arabicCheckbox = MenuItemCompat.getActionView(languages).arabic_checkbox as CompoundButton
+        val languagesMenuItem = mNavigationView.menu.findItem(R.id.languagesCheckBoxesMenuItems)
+        englishCheckbox =
+            languagesMenuItem.actionView.findViewById(R.id.english_checkbox) as CompoundButton
+        arabicCheckbox =
+            languagesMenuItem.actionView.findViewById(R.id.arabic_checkbox) as CompoundButton
         englishCheckbox.setOnClickListener(this)
         arabicCheckbox.setOnClickListener(this)
         languagesCheckboxesBehaviorHandleObserve(arabicCheckbox, englishCheckbox)
@@ -184,11 +194,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         })
     }
 
-
     private fun themesCheckboxesInflate() {
-        val themes = mNavigationView.menu.findItem(R.id.themesCheckBoxes)
-        blueCheckbox = MenuItemCompat.getActionView(themes).blue_checkbox as CompoundButton
-        pinkCheckbox = MenuItemCompat.getActionView(themes).pink_checkbox as CompoundButton
+        val themesMenuItem = mNavigationView.menu.findItem(R.id.themesCheckBoxesMenuItems)
+        blueCheckbox = themesMenuItem.actionView.findViewById(R.id.blue_checkbox) as CompoundButton
+        pinkCheckbox = themesMenuItem.actionView.findViewById(R.id.pink_checkbox) as CompoundButton
         this.blueCheckbox.setOnClickListener(this)
         this.pinkCheckbox.setOnClickListener(this)
 
@@ -202,21 +211,21 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         homeViewModel.themeCheckboxesBehavior()
         homeViewModel.isBlueCheckboxChecked.observe(this, {
             blueCheckbox.isChecked = true
-            check_in_button.setImageResource(R.drawable.button_icon_blue)
-            toolbar_logo.setImageResource(R.drawable.sawa_logo_blue)
+            binding.checkInButton.setImageResource(R.drawable.button_icon_blue)
+            binding.includeToolbar.toolbarLogo.setImageResource(R.drawable.sawa_logo_blue)
         })
 
         homeViewModel.isPinkCheckboxChecked.observe(this, {
             pinkCheckbox.isChecked = true
-            check_in_button.setImageResource(R.drawable.button_icon_pink)
-            toolbar_logo.setImageResource(R.drawable.sawa_logo_pink)
+            binding.checkInButton.setImageResource(R.drawable.button_icon_pink)
+            binding.includeToolbar.toolbarLogo.setImageResource(R.drawable.sawa_logo_pink)
         })
     }
 
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.english_checkbox -> {
-                db.saveLanguagesChickBoxState(
+                db.saveLanguagesCheckBoxState(
                     applicationContext, Constants.ENG_CHECKBOX_CHECKED
                 )
                 db.setAppLanguage(applicationContext, Constants.ENGLISH_LANGUAGE_LOCALE)
@@ -224,7 +233,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
 
             R.id.arabic_checkbox -> {
-                db.saveLanguagesChickBoxState(
+                db.saveLanguagesCheckBoxState(
 
                     applicationContext, Constants.ARAB_CHECKBOX_CHECKED
                 )
@@ -233,7 +242,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
 
             R.id.blue_checkbox -> {
-                db.saveThemesChickBoxState(
+                db.saveThemesCheckBoxState(
 
                     applicationContext, Constants.BLUE_CHECKBOX_CHECKED
                 )
@@ -242,7 +251,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             }
             R.id.pink_checkbox -> {
-                db.saveThemesChickBoxState(
+                db.saveThemesCheckBoxState(
 
                     applicationContext, Constants.PINK_CHECKBOX_CHECKED
                 )

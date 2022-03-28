@@ -3,7 +3,7 @@ package com.abumadi.sawaapp.ui.base
 import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.domain.BaseUseCase
 import com.abumadi.sawaapp.others.Constants
-import com.google.common.truth.Truth.assertThat
+import org.junit.Assert.*
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before
@@ -35,8 +35,8 @@ class BaseViewModelTest {
         baseViewModel.setAppTheme()
         val currentTheme = baseViewModel.getCurrentTheme()
         val defaultTheme = baseViewModel.getDefaultTheme()
-        assertThat(currentTheme).isEqualTo(R.style.PinkStyle)
-        assertThat(defaultTheme).isTrue()
+        assertEquals(currentTheme, R.style.PinkStyle)
+        assertEquals(defaultTheme, true)
     }
 
     //if appThemeExecute pink theme _current theme will be pink and is default will be false
@@ -46,8 +46,8 @@ class BaseViewModelTest {
         baseViewModel.setAppTheme()
         val currentTheme = baseViewModel.getCurrentTheme()
         val defaultTheme = baseViewModel.getDefaultTheme()
-        assertThat(currentTheme).isEqualTo(R.style.PinkStyle)
-        assertThat(defaultTheme).isFalse()
+        assertEquals(currentTheme, R.style.PinkStyle)
+        assertEquals(defaultTheme, false)
     }
 
     //if appThemeExecute blue theme _current theme will be blue and is default will be false
@@ -57,8 +57,8 @@ class BaseViewModelTest {
         baseViewModel.setAppTheme()
         val currentTheme = baseViewModel.getCurrentTheme()
         val defaultTheme = baseViewModel.getDefaultTheme()
-        assertThat(currentTheme).isEqualTo(R.style.BlueStyle)
-        assertThat(defaultTheme).isFalse()
+        assertEquals(currentTheme, R.style.BlueStyle)
+        assertEquals(defaultTheme, false)
     }
 
     //2-setAppLanguage
@@ -69,8 +69,8 @@ class BaseViewModelTest {
         baseViewModel.setAppLanguage()
         val currentLanguage = baseViewModel.getCurrentLanguage()
         val defaultLanguage = baseViewModel.getDefaultLanguage()
-        assertThat(currentLanguage).isEqualTo(ENGLISH_LANGUAGE)
-        assertThat(defaultLanguage).isTrue()
+        assertEquals(currentLanguage, ENGLISH_LANGUAGE)
+        assertEquals(defaultLanguage, true)
     }
 
     //if appLanguageExecute eng language _current language will be eng and is default will be false
@@ -80,9 +80,10 @@ class BaseViewModelTest {
         baseViewModel.setAppLanguage()
         val currentLanguage = baseViewModel.getCurrentLanguage()
         val defaultLanguage = baseViewModel.getDefaultLanguage()
-        assertThat(currentLanguage).isEqualTo(ENGLISH_LANGUAGE)
-        assertThat(defaultLanguage).isFalse()
+        assertEquals(currentLanguage, ENGLISH_LANGUAGE)
+        assertEquals(defaultLanguage, false)
     }
+
     //if appLanguageExecute ar language _current language will be ar and is default will be false
     @Test
     fun setAppLanguage_ifAppLanguageExecuteArabicLanguage_currentLanguageWillBeArabicAndIsDefaultWillBeFalse() {
@@ -90,7 +91,7 @@ class BaseViewModelTest {
         baseViewModel.setAppLanguage()
         val currentLanguage = baseViewModel.getCurrentLanguage()
         val defaultLanguage = baseViewModel.getDefaultLanguage()
-        assertThat(currentLanguage).isEqualTo(ARABIC_LANGUAGE)
-        assertThat(defaultLanguage).isFalse()
+        assertEquals(currentLanguage, ARABIC_LANGUAGE)
+        assertEquals(defaultLanguage, false)
     }
 }

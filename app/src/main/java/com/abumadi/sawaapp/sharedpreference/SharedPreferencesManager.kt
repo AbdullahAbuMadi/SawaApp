@@ -1,11 +1,11 @@
-package com.abumadi.sawaapp.db
+package com.abumadi.sawaapp.sharedpreference
 
 import android.content.Context
 import com.abumadi.sawaapp.others.Constants
 
-class SharedPreferencesDb {
+class SharedPreferencesManager {
 
-    fun saveThemesChickBoxState(applicationContext: Context, key: String) {
+    fun saveThemesCheckBoxState(applicationContext: Context, key: String) {
         val prefs =
             applicationContext.getSharedPreferences(
                 Constants.THEMES_CHECKBOX_PREFERENCES,
@@ -15,7 +15,7 @@ class SharedPreferencesDb {
         prefs.edit().putBoolean(key, true).apply()
     }
 
-    fun getThemesChickBoxState(applicationContext: Context, key: String): Boolean {
+    fun getThemesCheckBoxState(applicationContext: Context, key: String): Boolean {
         val prefs =
             applicationContext.getSharedPreferences(
                 Constants.THEMES_CHECKBOX_PREFERENCES,
@@ -67,7 +67,7 @@ class SharedPreferencesDb {
         return prefs.getString(Constants.PREF_LANGUAGE_KEY, Constants.DEFAULT_LANGUAGE)
     }
 
-    fun saveLanguagesChickBoxState(applicationContext: Context, key: String) {
+    fun saveLanguagesCheckBoxState(applicationContext: Context, key: String) {
         val prefs =
             applicationContext.getSharedPreferences(
                 Constants.LANGUAGES_CHECKBOX_PREFERENCES,
@@ -77,7 +77,7 @@ class SharedPreferencesDb {
         prefs.edit().putBoolean(key, true).apply()
     }
 
-    fun getLanguagesChickBoxState(applicationContext: Context, key: String): Boolean {
+    fun getLanguagesCheckBoxState(applicationContext: Context, key: String): Boolean {
         val prefs =
             applicationContext.getSharedPreferences(
                 Constants.LANGUAGES_CHECKBOX_PREFERENCES,

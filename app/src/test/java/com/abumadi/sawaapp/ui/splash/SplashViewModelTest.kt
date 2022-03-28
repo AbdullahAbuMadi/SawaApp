@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.domain.SplashUseCase
 import com.abumadi.sawaapp.others.Constants
-import com.google.common.truth.Truth.assertThat
+import org.junit.Assert.*
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before
@@ -40,7 +40,7 @@ class SplashViewModelTest {
         every { splashUseCase.appThemeExecute() } returns DEFAULT_THEME
         splashViewModel.setCurrentSplashLogo()
         val result = splashViewModel.currentSplashLogo.value
-        assertThat(result).isEqualTo(R.drawable.ic_sawa_logo_pink)
+        assertEquals(result,R.drawable.ic_sawa_logo_pink)
     }
     //if appThemeExecute successfully and pink theme executed_currentSplashLogo will be pink logo
     @Test
@@ -48,7 +48,7 @@ class SplashViewModelTest {
         every { splashUseCase.appThemeExecute() } returns PINK_THEME
         splashViewModel.setCurrentSplashLogo()
         val result = splashViewModel.currentSplashLogo.value
-        assertThat(result).isEqualTo(R.drawable.ic_sawa_logo_pink)
+        assertEquals(result,R.drawable.ic_sawa_logo_pink)
     }
     //if appThemeExecute successfully and blue theme executed_currentSplashLogo will be blue logo
     @Test
@@ -56,7 +56,7 @@ class SplashViewModelTest {
         every { splashUseCase.appThemeExecute() } returns BLUE_THEME
         splashViewModel.setCurrentSplashLogo()
         val result = splashViewModel.currentSplashLogo.value
-        assertThat(result).isEqualTo(R.drawable.ic_sawa_logo_blue)
+        assertEquals(result,R.drawable.ic_sawa_logo_blue)
     }
     //if appThemeExecute failed _currentSplashLogo will be null
     @Test
@@ -64,6 +64,6 @@ class SplashViewModelTest {
         every { splashUseCase.appThemeExecute() } returns FAILED_THEME
         splashViewModel.setCurrentSplashLogo()
         val result = splashViewModel.currentSplashLogo.value
-        assertThat(result).isEqualTo(null)
+        assertEquals(result,null)
     }
 }

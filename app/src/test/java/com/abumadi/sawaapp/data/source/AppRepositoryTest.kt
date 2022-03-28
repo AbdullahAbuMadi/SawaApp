@@ -1,10 +1,10 @@
 package com.abumadi.sawaapp.data.source
 
 import android.content.Context
-import com.abumadi.sawaapp.db.SharedPreferencesDb
-import com.google.common.truth.Truth.assertThat
+import com.abumadi.sawaapp.sharedpreference.SharedPreferencesManager
 import io.mockk.every
 import io.mockk.mockk
+import org.junit.Assert.*
 
 import org.junit.Before
 import org.junit.Test
@@ -32,7 +32,7 @@ const val FAILED_LANGUAGE_CHECKBOX_STATE_DEFAULT = "failed default language chec
 class AppRepositoryTest {
 
     lateinit var appRepository: AppRepository
-    lateinit var sharedPreferencesDb: SharedPreferencesDb
+    lateinit var sharedPreferencesDb: SharedPreferencesManager
     lateinit var context: Context
 
     @Before
@@ -49,7 +49,7 @@ class AppRepositoryTest {
     fun getCurrentTheme_ifThemeGetsSuccessfullyFromDataBaseAtFirstTimeAppLaunching_themePassedAndGetWillBeEqualed() {
         every { sharedPreferencesDb.getAppTheme(context) } returns SUCCESS_THEME_DEFAULT
         val result = appRepository.getCurrentTheme()
-        assertThat(result).isEqualTo(SUCCESS_THEME_DEFAULT)
+        assertEquals(result, SUCCESS_THEME_DEFAULT)
     }
 
     //if getCurrentTheme function getTheme successfully_themePassedAndGetWillBeEqualed
@@ -57,7 +57,7 @@ class AppRepositoryTest {
     fun getCurrentTheme_ifThemeGetsSuccessfullyFromDataBase_themePassedAndGetWillBeEqualed() {
         every { sharedPreferencesDb.getAppTheme(context) } returns SUCCESS_THEME
         val result = appRepository.getCurrentTheme()
-        assertThat(result).isEqualTo(SUCCESS_THEME)
+        assertEquals(result, SUCCESS_THEME)
     }
 
     //if getCurrentTheme function getTheme failed at first time app launching_themePassedAndGetWillNotBeEqualed
@@ -65,7 +65,7 @@ class AppRepositoryTest {
     fun getCurrentTheme_ifThemeGetsFailedFromDataBaseAtFirstTimeAppLaunching_themePassedAndGetWillNotBeEqualed() {
         every { sharedPreferencesDb.getAppTheme(context) } returns FAILED_THEME_DEFAULT
         val result = appRepository.getCurrentTheme()
-        assertThat(result).isNotEqualTo(SUCCESS_THEME_DEFAULT)
+        assertNotEquals(result, SUCCESS_THEME_DEFAULT)
     }
 
     //if getCurrentTheme function getTheme failed_themePassedAndGetWillNotBeEqualed
@@ -73,7 +73,7 @@ class AppRepositoryTest {
     fun getCurrentTheme_ifThemeGetsFailedFromDataBase_themePassedAndGetWillNotBeEqualed() {
         every { sharedPreferencesDb.getAppTheme(context) } returns FAILED_THEME
         val result = appRepository.getCurrentTheme()
-        assertThat(result).isNotEqualTo(SUCCESS_THEME)
+        assertNotEquals(result, SUCCESS_THEME)
     }
 
     //2-getCurrentLanguage
@@ -82,7 +82,7 @@ class AppRepositoryTest {
     fun getCurrentLanguage_ifLanguageGetsSuccessfullyFromDataBaseAtFirstTimeAppLaunching_languagePassedAndGetWillBeEqualed() {
         every { sharedPreferencesDb.getAppLanguage(context) } returns SUCCESS_LANGUAGE_DEFAULT
         val result = appRepository.getCurrentLanguage()
-        assertThat(result).isEqualTo(SUCCESS_LANGUAGE_DEFAULT)
+        assertEquals(result, SUCCESS_LANGUAGE_DEFAULT)
     }
 
     //if getCurrentLanguage function getLanguage successfully_languagePassedAndGetWillBeEqualed
@@ -90,7 +90,7 @@ class AppRepositoryTest {
     fun getCurrentLanguage_ifLanguageGetsSuccessfullyFromDataBase_languagePassedAndGetWillBeEqualed() {
         every { sharedPreferencesDb.getAppLanguage(context) } returns SUCCESS_LANGUAGE
         val result = appRepository.getCurrentLanguage()
-        assertThat(result).isEqualTo(SUCCESS_LANGUAGE)
+        assertEquals(result, SUCCESS_LANGUAGE)
     }
 
     //if getCurrentLanguage function getLanguage failed at first time app launching_languagePassedAndGetWillNotBeEqualed
@@ -98,7 +98,7 @@ class AppRepositoryTest {
     fun getCurrentLanguage_ifLanguageGetsFailedFromDataBaseAtFirstTimeAppLaunching_languagePassedAndGetWillNotBeEqualed() {
         every { sharedPreferencesDb.getAppLanguage(context) } returns FAILED_LANGUAGE_DEFAULT
         val result = appRepository.getCurrentLanguage()
-        assertThat(result).isNotEqualTo(SUCCESS_LANGUAGE_DEFAULT)
+        assertNotEquals(result, SUCCESS_LANGUAGE_DEFAULT)
     }
 
     //if getCurrentLanguage function getLanguage failed_languagePassedAndGetWillNotBeEqualed
@@ -106,7 +106,7 @@ class AppRepositoryTest {
     fun getCurrentLanguage_ifLanguageGetsFailedFromDataBase_languagePassedAndGetWillNotBeEqualed() {
         every { sharedPreferencesDb.getAppLanguage(context) } returns FAILED_LANGUAGE
         val result = appRepository.getCurrentLanguage()
-        assertThat(result).isNotEqualTo(SUCCESS_LANGUAGE)
+        assertNotEquals(result, SUCCESS_LANGUAGE)
     }
 
     //3-getCheckedThemeCheckboxes
@@ -114,56 +114,56 @@ class AppRepositoryTest {
     @Test
     fun getCheckedThemeCheckboxes_ifGetCheckboxStateSuccessfullyAtFirstTimeAppLaunching_trueReturned() {
         every {
-            sharedPreferencesDb.getThemesChickBoxState(
+            sharedPreferencesDb.getThemesCheckBoxState(
                 context,
                 SUCCESS_THEME_CHECKBOX_STATE_DEFAULT
             )
         } returns true
 
         val result = appRepository.getCheckedThemeCheckboxes(SUCCESS_THEME_CHECKBOX_STATE_DEFAULT)
-        assertThat(result).isTrue()
+        assertEquals(result, true)
     }
 
     //if getCheckedThemeCheckboxes function gets checkbox state successfully_true returned
     @Test
     fun getCheckedThemeCheckboxes_ifGetCheckboxStateSuccessfully_trueReturned() {
         every {
-            sharedPreferencesDb.getThemesChickBoxState(
+            sharedPreferencesDb.getThemesCheckBoxState(
                 context,
                 SUCCESS_THEME_CHECKBOX_STATE
             )
         } returns true
 
         val result = appRepository.getCheckedThemeCheckboxes(SUCCESS_THEME_CHECKBOX_STATE)
-        assertThat(result).isTrue()
+        assertEquals(result, true)
     }
 
     //if getCheckedThemeCheckboxes function failed gets checkbox state at first time app launching _false returned
     @Test
     fun getCheckedThemeCheckboxes_ifGetCheckboxStateFailedAtFirstTimeAppLaunching_FalseReturned() {
         every {
-            sharedPreferencesDb.getThemesChickBoxState(
+            sharedPreferencesDb.getThemesCheckBoxState(
                 context,
                 FAILED_THEME_CHECKBOX_STATE__DEFAULT
             )
         } returns false
 
         val result = appRepository.getCheckedThemeCheckboxes(FAILED_THEME_CHECKBOX_STATE__DEFAULT)
-        assertThat(result).isFalse()
+        assertEquals(result, false)
     }
 
     //if getCheckedThemeCheckboxes function failed gets checkbox state _false returned
     @Test
     fun getCheckedThemeCheckboxes_ifGetCheckboxStateFailed_FalseReturned() {
         every {
-            sharedPreferencesDb.getThemesChickBoxState(
+            sharedPreferencesDb.getThemesCheckBoxState(
                 context,
                 FAILED_THEME_CHECKBOX_STATE
             )
         } returns false
 
         val result = appRepository.getCheckedThemeCheckboxes(FAILED_THEME_CHECKBOX_STATE)
-        assertThat(result).isFalse()
+        assertEquals(result, false)
     }
 
     //4-getCheckedLanguageCheckboxes
@@ -171,7 +171,7 @@ class AppRepositoryTest {
     @Test
     fun getCheckedLanguageCheckboxes_ifGetCheckboxStateSuccessfullyAtFirstTimeAppLaunching_trueReturned() {
         every {
-            sharedPreferencesDb.getLanguagesChickBoxState(
+            sharedPreferencesDb.getLanguagesCheckBoxState(
                 context,
                 SUCCESS_LANGUAGE_CHECKBOX_STATE_DEFAULT
             )
@@ -180,28 +180,28 @@ class AppRepositoryTest {
         val result = appRepository.getCheckedLanguageCheckboxes(
             SUCCESS_LANGUAGE_CHECKBOX_STATE_DEFAULT
         )
-        assertThat(result).isTrue()
+        assertEquals(result, true)
     }
 
     //if getCheckedLanguageCheckboxes function gets checkbox state successfully_true returned
     @Test
     fun getCheckedLanguageCheckboxes_ifGetCheckboxStateSuccessfully_trueReturned() {
         every {
-            sharedPreferencesDb.getLanguagesChickBoxState(
+            sharedPreferencesDb.getLanguagesCheckBoxState(
                 context,
                 SUCCESS_LANGUAGE_CHECKBOX_STATE
             )
         } returns true
 
         val result = appRepository.getCheckedLanguageCheckboxes(SUCCESS_LANGUAGE_CHECKBOX_STATE)
-        assertThat(result).isTrue()
+        assertEquals(result, true)
     }
 
     //if getCheckedLanguageCheckboxes function failed gets checkbox state at first time app launching_false returned
     @Test
     fun getCheckedLanguageCheckboxes_ifGetCheckboxStateFailedAtFirstTimeAppLaunching_FalseReturned() {
         every {
-            sharedPreferencesDb.getLanguagesChickBoxState(
+            sharedPreferencesDb.getLanguagesCheckBoxState(
                 context,
                 FAILED_LANGUAGE_CHECKBOX_STATE_DEFAULT
             )
@@ -210,20 +210,20 @@ class AppRepositoryTest {
         val result = appRepository.getCheckedLanguageCheckboxes(
             FAILED_LANGUAGE_CHECKBOX_STATE_DEFAULT
         )
-        assertThat(result).isFalse()
+        assertEquals(result, false)
     }
 
     //if getCheckedLanguageCheckboxes function failed gets checkbox state _false returned
     @Test
     fun getCheckedLanguageCheckboxes_ifGetCheckboxStateFailed_FalseReturned() {
         every {
-            sharedPreferencesDb.getLanguagesChickBoxState(
+            sharedPreferencesDb.getLanguagesCheckBoxState(
                 context,
                 FAILED_LANGUAGE_CHECKBOX_STATE
             )
         } returns false
 
         val result = appRepository.getCheckedLanguageCheckboxes(FAILED_LANGUAGE_CHECKBOX_STATE)
-        assertThat(result).isFalse()
+        assertEquals(result, false)
     }
 }

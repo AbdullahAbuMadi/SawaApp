@@ -13,21 +13,10 @@ import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(private val splashUseCase: SplashUseCase) : ViewModel() {
 
-    private val _navigate = SingleLiveEvent<Boolean>()
     private val _currentSplashLogo = SingleLiveEvent<Int>()
-
-    val navigate: LiveData<Boolean>
-        get() = _navigate
 
     val currentSplashLogo: LiveData<Int>
         get() = _currentSplashLogo
-
-    fun navigate() {
-        viewModelScope.launch {
-            delay(2_000)
-            _navigate.value = true
-        }
-    }
 
     fun setCurrentSplashLogo() {
         if (splashUseCase.appThemeExecute() == Constants.THEME_PINK) {

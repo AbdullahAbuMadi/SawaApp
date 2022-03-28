@@ -13,33 +13,24 @@
         android:padding="16dp"
         app:elevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:contentInsetLeft="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:contentInsetStartWithNavigation="0dp">
-
-            </androidx.appcompat.widget.Toolbar>
+            android:layout_height="wrap_content"
+            app:contentInsetLeft="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:contentInsetStartWithNavigation="0dp">
 
             <ImageView
                 android:id="@+id/toolbar_logo"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintWidth_percent="0.4"
-                app:layout_constraintHeight_percent="0.9"
-                app:flow_horizontalAlign="start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/sawa_logo_pink" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

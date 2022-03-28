@@ -2,7 +2,7 @@ package com.abumadi.sawaapp.di.modules
 
 import android.content.Context
 import com.abumadi.sawaapp.data.source.AppRepository
-import com.abumadi.sawaapp.db.SharedPreferencesDb
+import com.abumadi.sawaapp.sharedpreference.SharedPreferencesManager
 import com.abumadi.sawaapp.domain.BaseUseCase
 import com.abumadi.sawaapp.domain.HomeUseCase
 import com.abumadi.sawaapp.domain.SplashUseCase
@@ -16,7 +16,7 @@ class AppModule(private val context: Context) {
     @Singleton
     @Provides
     fun provideAppRepository(
-        db: SharedPreferencesDb
+        db: SharedPreferencesManager
     ) = AppRepository(db, context)
 
 
@@ -43,7 +43,7 @@ class AppModule(private val context: Context) {
     @Singleton
     @Provides
     fun provideSharedPreferenceDb(
-    ) = SharedPreferencesDb()
+    ) = SharedPreferencesManager()
 
     @Singleton
     @Provides
