@@ -229,37 +229,37 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.english_checkbox -> {
-                db.saveLanguagesCheckBoxState(
+                sharedPreference.saveLanguagesCheckBoxState(
                     applicationContext, Constants.ENG_CHECKBOX_CHECKED
                 )
-                db.setAppLanguage(applicationContext, Constants.ENGLISH_LANGUAGE_LOCALE)
+                sharedPreference.setAppLanguage(applicationContext, Constants.ENGLISH_LANGUAGE_LOCALE)
                 recreateActivity()
             }
 
             R.id.arabic_checkbox -> {
-                db.saveLanguagesCheckBoxState(
+                sharedPreference.saveLanguagesCheckBoxState(
 
                     applicationContext, Constants.ARAB_CHECKBOX_CHECKED
                 )
-                db.setAppLanguage(applicationContext, Constants.ARABIC_LANGUAGE_LOCALE)
+                sharedPreference.setAppLanguage(applicationContext, Constants.ARABIC_LANGUAGE_LOCALE)
                 recreateActivity()
             }
 
             R.id.blue_checkbox -> {
-                db.saveThemesCheckBoxState(
+                sharedPreference.saveThemesCheckBoxState(
 
                     applicationContext, Constants.BLUE_CHECKBOX_CHECKED
                 )
-                db.setAppTheme(applicationContext, Constants.THEME_BLUE)
+                sharedPreference.setAppTheme(applicationContext, Constants.THEME_BLUE)
                 recreateActivity()
 
             }
             R.id.pink_checkbox -> {
-                db.saveThemesCheckBoxState(
+                sharedPreference.saveThemesCheckBoxState(
 
                     applicationContext, Constants.PINK_CHECKBOX_CHECKED
                 )
-                db.setAppTheme(applicationContext, Constants.THEME_PINK)
+                sharedPreference.setAppTheme(applicationContext, Constants.THEME_PINK)
                 recreateActivity()
             }
             R.id.check_in_button -> {

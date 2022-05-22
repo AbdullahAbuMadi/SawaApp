@@ -16,8 +16,8 @@ class AppModule(private val context: Context) {
     @Singleton
     @Provides
     fun provideAppRepository(
-        db: SharedPreferencesManager
-    ) = AppRepository(db, context)
+        sharedPreference: SharedPreferencesManager
+    ) = AppRepository(sharedPreference, context)
 
 
     @Singleton

@@ -18,7 +18,7 @@ open class BaseActivity : AppCompatActivity() {
     lateinit var baseViewModel: BaseViewModel
 
     @Inject
-    lateinit var db: SharedPreferencesManager
+    lateinit var sharedPreference: SharedPreferencesManager
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -52,7 +52,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun defaultThemeCheckedCheckbox(defaultTheme: Boolean?) {
         if (defaultTheme == true)
-            db.saveThemesCheckBoxState(applicationContext, Constants.PINK_CHECKBOX_CHECKED)
+            sharedPreference.saveThemesCheckBoxState(applicationContext, Constants.PINK_CHECKBOX_CHECKED)
     }
 
     private fun setUpApplicationLanguage() {
@@ -74,7 +74,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun defaultLanguageCheckedCheckbox(defaultLanguage: Boolean?) {
         if (defaultLanguage == true) {
-            db.saveLanguagesCheckBoxState(
+            sharedPreference.saveLanguagesCheckBoxState(
                 applicationContext, Constants.ENG_CHECKBOX_CHECKED
             )
         }
@@ -91,12 +91,4 @@ open class BaseActivity : AppCompatActivity() {
         overridePendingTransition(0, 0)
     }
 }
-
-//      baseViewModel.setAppTheme()
-//        baseViewModel.currentTheme.observe(this, {
-//            this.setTheme(it)
-////            baseViewModel.refresh()
-//            Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show()
-//            Log.d("baseActivity", "setUpApplicationTheme:$it")
-//        })
 
