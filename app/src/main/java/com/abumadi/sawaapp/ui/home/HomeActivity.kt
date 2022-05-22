@@ -1,6 +1,9 @@
 package com.abumadi.sawaapp.ui.home
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,9 +23,13 @@ import com.abumadi.sawaapp.data.constantsclasses.Destinations
 import com.abumadi.sawaapp.data.constantsclasses.Places
 import com.abumadi.sawaapp.databinding.ActivityHomeBinding
 import com.abumadi.sawaapp.others.Constants
+import com.abumadi.sawaapp.others.TimerService
 import com.abumadi.sawaapp.ui.base.BaseActivity
 import com.abumadi.sawaapp.ui.scanner.ScannerActivity
 import com.google.android.material.navigation.NavigationView
+import java.time.Clock
+import java.util.*
+import kotlin.math.roundToInt
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, TextWatcher,
@@ -45,25 +52,122 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var pinkCheckbox: CompoundButton
     private lateinit var arabicCheckbox: CompoundButton
     private lateinit var englishCheckbox: CompoundButton
+    private var placeName: String? = null
+
+    //stop watch
+    private var timerStarted = false
+    private lateinit var serviceIntent: Intent
+    private var time = 0.0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        navDrawerSetUp()
-        toolbarSetUp()
-        navViewHeaderClick()
-        destinationRecyclerViewSetUp()
-        placesRecyclerViewSetUp()
-        languageCheckboxesInflate()
-        themesCheckboxesInflate()
-        mNavigationView.setNavigationItemSelectedListener(this)
-        binding.includeBottomSheet.whereToEd.addTextChangedListener(this)
-        binding.checkInButton.setOnClickListener(this)
-        binding.includeBottomSheet.whereToEd.setOnTouchListener(this)
+        placeName = intent.getStringExtra("placeName")
+        if (placeName != null) {
+            binding.includeCheckInButton.root.visibility = View.GONE
+            binding.includeCheckedInPlace.root.visibility = View.VISIBLE
+
+            serviceIntent = Intent(applicationContext, TimerService::class.java)
+            registerReceiver(updateTime, IntentFilter(TimerService.TIMER_UPDATED))
+
+            startTimer()
+
+            binding.includeCheckedInPlace.checkedInPlaceTv.text = "$placeName"
+            val systemTimeInMillis = System.currentTimeMillis()
+            val systemTime = getTimeStringFromDouble(systemTimeInMillis.toDouble())
+            binding.includeCheckedInPlace.systemTime.text =
+                //suppose to divide on 1000 >>because it is in millis
+                //suppose to -43200000 =12 hrs >> to convert from 24 to 12 system
+                //- 32400000 because there is 3 hrs different btw system time and emulator time
+                //TODO move it to base activity
+                //TODO Solve the dialog problem
+                //TODO Solve changing theme and language issues
+                //TODO Add Rating Dialog
+
+                getTimeStringFromDoubleWithoutSeconds(((System.currentTimeMillis() - 32400000) / 1000).toDouble())
+            navDrawerSetUp()
+            toolbarSetUp()
+            navViewHeaderClick()
+            destinationRecyclerViewSetUp()
+            placesRecyclerViewSetUp()
+            languageCheckboxesInflate()
+            themesCheckboxesInflate()
+            mNavigationView.setNavigationItemSelectedListener(this)
+            binding.includeBottomSheet.whereToEd.addTextChangedListener(this)
+            binding.includeBottomSheet.whereToEd.setOnTouchListener(this)
+            binding.includeCheckedInPlace.checkOutCv.setOnClickListener {
+                stopTimer()
+                Toast.makeText(
+                    this,
+                    binding.includeCheckedInPlace.durationCounterTv.text.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            binding.includeCheckedInPlace.checkInAnotherPlace.setOnClickListener {
+                startActivity(Intent(this, ScannerActivity::class.java))
+                stopTimer()
+            }
+        } else {
+            binding.includeCheckInButton.root.visibility = View.VISIBLE
+            binding.includeCheckInButton.checkInButton.setOnClickListener(this)
+            navDrawerSetUp()
+            toolbarSetUp()
+            navViewHeaderClick()
+            destinationRecyclerViewSetUp()
+            placesRecyclerViewSetUp()
+            languageCheckboxesInflate()
+            themesCheckboxesInflate()
+            mNavigationView.setNavigationItemSelectedListener(this)
+            binding.includeBottomSheet.whereToEd.addTextChangedListener(this)
+            binding.includeBottomSheet.whereToEd.setOnTouchListener(this)
+        }
     }
 
+    private fun startTimer() {
+        serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
+        startService(serviceIntent)
+        timerStarted = true
+    }
+
+    private fun stopTimer() {
+        stopService(serviceIntent)
+        timerStarted = false
+    }
+
+    private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
+            binding.includeCheckedInPlace.durationCounterTv.text = getTimeStringFromDouble(time)
+        }
+    }
+
+    private fun getTimeStringFromDouble(time: Double): String {
+        val resultInt = time.roundToInt()
+        val hours = resultInt % 86400 / 3600
+        val minutes = resultInt % 86400 % 3600 / 60
+        val seconds = resultInt % 86400 % 3600 % 60
+
+        return makeTimeString(hours, minutes, seconds)
+    }
+
+    private fun getTimeStringFromDoubleWithoutSeconds(time: Double): String {
+        val resultInt = time.roundToInt()
+        val hours = resultInt % 86400 / 3600
+        val minutes = resultInt % 86400 % 3600 / 60
+
+        return makeTimeStringWithOutSeconds(hours, minutes)
+    }
+
+    private fun makeTimeString(hour: Int, min: Int, sec: Int): String =
+        String.format("%02d:%02d:%02d", hour, min, sec)
+
+    private fun makeTimeStringWithOutSeconds(hour: Int, min: Int): String =
+        String.format("%02d:%02d", hour, min)
+
     override fun onBackPressed() {
+        stopTimer()
         finishAffinity()
         super.onBackPressed()
     }
@@ -215,13 +319,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         homeViewModel.themeCheckboxesBehavior()
         homeViewModel.isBlueCheckboxChecked.observe(this, {
             blueCheckbox.isChecked = true
-            binding.checkInButton.setImageResource(R.drawable.button_icon_blue)
+            binding.includeCheckInButton.checkInButton.setImageResource(R.drawable.button_icon_blue)
             binding.includeToolbar.toolbarLogo.setImageResource(R.drawable.sawa_logo_blue)
         })
 
         homeViewModel.isPinkCheckboxChecked.observe(this, {
             pinkCheckbox.isChecked = true
-            binding.checkInButton.setImageResource(R.drawable.button_icon_pink)
+            binding.includeCheckInButton.checkInButton.setImageResource(R.drawable.button_icon_pink)
             binding.includeToolbar.toolbarLogo.setImageResource(R.drawable.sawa_logo_pink)
         })
     }
@@ -232,7 +336,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 sharedPreference.saveLanguagesCheckBoxState(
                     applicationContext, Constants.ENG_CHECKBOX_CHECKED
                 )
-                sharedPreference.setAppLanguage(applicationContext, Constants.ENGLISH_LANGUAGE_LOCALE)
+                sharedPreference.setAppLanguage(
+                    applicationContext,
+                    Constants.ENGLISH_LANGUAGE_LOCALE
+                )
                 recreateActivity()
             }
 
@@ -241,7 +348,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
                     applicationContext, Constants.ARAB_CHECKBOX_CHECKED
                 )
-                sharedPreference.setAppLanguage(applicationContext, Constants.ARABIC_LANGUAGE_LOCALE)
+                sharedPreference.setAppLanguage(
+                    applicationContext,
+                    Constants.ARABIC_LANGUAGE_LOCALE
+                )
                 recreateActivity()
             }
 

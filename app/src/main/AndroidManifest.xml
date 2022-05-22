@@ -48,6 +48,8 @@
 
 
         </activity>
+        <service android:name=".others.TimerService"/>
+
     </application>
 
 </manifest>

@@ -1,18 +1,24 @@
 package com.abumadi.sawaapp.ui.scanner
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.databinding.ActivityScannerBinding
 import com.abumadi.sawaapp.ui.base.BaseActivity
+import com.abumadi.sawaapp.ui.home.HomeActivity
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
+import kotlinx.coroutines.delay
 
 private const val CAMERA_REQUEST_CODE = 101
 
@@ -20,6 +26,7 @@ class ScannerActivity : BaseActivity() {
 
     private lateinit var codeScanner: CodeScanner
     private lateinit var binding: ActivityScannerBinding
+    private var placeName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,20 +55,41 @@ class ScannerActivity : BaseActivity() {
             formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
             // ex. listOf(BarcodeFormat.QR_CODE)
             autoFocusMode = AutoFocusMode.SAFE // or CONTINUOUS
-            scanMode = ScanMode.CONTINUOUS // or CONTINUOUS or PREVIEW
+            scanMode = ScanMode.SINGLE // or CONTINUOUS or PREVIEW
             isAutoFocusEnabled = true // Whether to enable auto focus or not
             isFlashEnabled = false // Whether to enable flash or not
 
             //Callbacks
             decodeCallback = DecodeCallback {
                 runOnUiThread {
-                    binding.tvQrCode.text = it.text
+                    placeName = it.text
+                    val builder = AlertDialog.Builder(this@ScannerActivity)
+                    //set title for alert dialog
+                    builder.setTitle("$placeName!")
+                    //set message for alert dialog
+                    builder.setMessage("Click YES To Check_In")
+                    builder.setIcon(R.drawable.starbucks_icon)
+
+                    //performing positive action
+                    builder.setPositiveButton("Yes") { _, _ ->
+                        val intent = Intent(this@ScannerActivity, HomeActivity::class.java)
+                        intent.putExtra("placeName", placeName)
+                        startActivity(intent)
+                        finish()
+                    }
+
+                    // Create the AlertDialog
+                    val alertDialog: AlertDialog = builder.create()
+                    // Set other dialog properties
+                    alertDialog.setCancelable(false)
+                    alertDialog.show()
+
                 }
             }
-            codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
-                runOnUiThread {
-                    Log.e("Scanner", "Camera initialization error : ${it.message}")
-                }
+        }
+        codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
+            runOnUiThread {
+                Log.e("Scanner", "Camera initialization error : ${it.message}")
             }
         }
 

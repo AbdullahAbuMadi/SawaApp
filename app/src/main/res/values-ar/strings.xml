@@ -22,4 +22,5 @@
     <string name="blue">أزرق</string>
     <string name="pink">زهري</string>
     <string name="scan_something">امسح الكود ...</string>
+    <string name="you_have_checked_in">لقد قمت بتسجيل الدخول!</string>
 </resources>

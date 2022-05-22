@@ -16,36 +16,16 @@
             android:id="@+id/include_toolbar"
             layout="@layout/app_tool_bar" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <include
+            android:id="@+id/include_check_in_button"
+            layout="@layout/check_in_button_and_text"
+            android:visibility="gone"/>
 
-            <ImageButton
-                android:id="@+id/check_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="107dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/button_icon_pink"
-                android:theme="@style/ThemeOverlay.Material3.Dark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <include
+            android:id="@+id/include_checked_in_place"
+            layout="@layout/checked_in_layout"
+            android:visibility="gone"/>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tap_to_check_in_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.6"
-                android:fontFamily="@font/poppins"
-                android:text="@string/tap_to_check_in"
-                android:textColor="?attr/textColor"
-                android:textSize="21sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/check_in_button"
-                app:layout_constraintStart_toStartOf="@+id/check_in_button"
-                app:layout_constraintTop_toBottomOf="@+id/check_in_button" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"

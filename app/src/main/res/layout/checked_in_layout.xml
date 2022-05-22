@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="25dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/you_have_checked_in_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/you_have_checked_in"
+        android:textColor="#13275E"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@+id/you_have_checked_in_tv">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/place_identity_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="5dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="9dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="9dp"
+                        android:src="@drawable/starbucks_icon" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/checked_in_place_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="@string/checked_in_place"
+                        android:textColor="#353E83"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/place_branch_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:elevation="5dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/place_identity_cv">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="9dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="9dp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:text="Branch:"
+                            android:textColor="#353E83"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/place_branch_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.9"
+                            android:fontFamily="@font/poppins"
+                            android:text=" Starbucks Abdoun"
+                            android:textColor="#353E83"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/circle_shadow"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_heart" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="9dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Capacity:"
+                            android:textColor="#13275E"
+                            android:textSize="12sp" />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            app:cardCornerRadius="20dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="#ED625D"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:paddingStart="12dp"
+                                    android:paddingEnd="12dp"
+                                    android:text="Crowded"
+                                    android:textAlignment="center"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/place_time_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:elevation="5dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/place_branch_cv">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="9dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="9dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="Duration:"
+                        android:textColor="#13275E"
+                        android:textSize="14sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/duration_counter_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.75"
+                        android:fontFamily="@font/poppins"
+                        android:text=" 00 : 00 : 00"
+                        android:textColor="#13275E"
+                        android:textSize="14sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="Check-in time:"
+                        android:textColor="#13275E"
+                        android:textSize="14sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/system_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
+                        android:text=" 15:21"
+                        android:textColor="#13275E"
+                        android:textSize="14sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:id="@+id/ll"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                app:layout_constraintTop_toBottomOf="@+id/place_time_cv">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/check_out_cv"
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="15dp">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="27dp"
+                            android:layout_height="27dp"
+                            android:src="@drawable/ic_check_out" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:gravity="center"
+                            android:fontFamily="@font/poppins"
+                            android:text="Check-out"
+                            android:textColor="#13275E"
+                            android:textSize="14sp" />
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/check_in_another_place"
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="15dp">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="27dp"
+                            android:layout_height="27dp"
+                            android:src="@drawable/ic_another_place" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="13dp"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text="Check-in\n another place"
+                            android:textColor="#13275E"
+                            android:textSize="14sp" />
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="15dp">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="27dp"
+                            android:layout_height="27dp"
+                            android:src="@drawable/ic_offers" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Offers"
+                            android:textColor="#13275E"
+                            android:textSize="14sp" />
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.cardview.widget.CardView>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/ll">
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
