@@ -60,4 +60,22 @@
     <attr name="buttonTint" format="color" />
     <attr name="textColor" format="color" />
     <attr name="endcolor" format="color" />
+
+
+    <!-- Alert Dialog -->
+    <style name="MyThemeOverlayAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MyApp.Dialog.Rounded
+        </item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MyApp.Dialog.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
+
+    <!--    rating bar -->
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#C5BABA</item>
+        <item name="colorControlActivated">#FFA236</item>
+    </style>
 </resources>

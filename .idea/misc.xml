@@ -9,11 +9,14 @@
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/circle_shadow.xml" value="0.26615384615384613" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/ic_another_place.xml" value="0.26615384615384613" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/ic_banks_icon.xml" value="0.2703125" />
+        <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/ic_heart.xml" value="0.1" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/ic_menu.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/ic_remove.xml" value="0.2703125" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/ic_sawa_logo.xml" value="0.2703125" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/ic_sawa_logo_blue.xml" value="0.2703125" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/ic_sawa_menu_icon.xml" value="0.2703125" />
+        <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/popup_background.xml" value="0.1" />
+        <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/rating_dialog.xml" value="0.1" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/rounded.xml" value="0.2703125" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/sawa_logo_blue.xml" value="0.2703125" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/drawable/sawa_logo_pink.xml" value="0.2703125" />
@@ -26,11 +29,13 @@
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/layout/bottom_sheet.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/layout/check_in_button_and_text.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/layout/checked_in_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/layout/checkout_dialog.xml" value="0.253125" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/layout/chicked_in_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/layout/destination_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/layout/drawer_header.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/layout/languages_checkboxes.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/layout/places_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/layout/rating_dialog.xml" value="0.253125" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/layout/themes_checkboxes.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/menu/app_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/aabumadi/AndroidStudioProjects/SawaApp/app/src/main/res/menu/drawer_menu.xml" value="0.25416666666666665" />

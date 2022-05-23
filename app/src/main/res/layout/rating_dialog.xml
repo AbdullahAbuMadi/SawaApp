@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <ImageView
+        android:id="@+id/rating_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/starbucks_icon" />
+
+    <TextView
+        android:id="@+id/place_name_tv_dialog_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Starbucks"
+        android:textColor="#353E83"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:fontFamily="@font/poppins"
+        android:text="Rate your experience"
+        android:textColor="#353E83"
+        android:textSize="20sp" />
+
+    <RatingBar
+        android:id="@+id/rating_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:rating="0"
+        android:theme="@style/RatingBar"
+        android:numStars="5"
+        android:stepSize="1"
+        android:isIndicator="false"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_btn_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#E2E2E2"
+        android:fontFamily="@font/poppins"
+        android:gravity="center_vertical"
+        android:clickable="false"
+        android:padding="15dp"
+        android:paddingStart="100dp"
+        android:paddingEnd="100dp"
+        android:text="Save"
+        android:textAllCaps="false"
+        android:textColor="#ADADAD"
+        app:cornerRadius="15dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/maybe_later_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/poppins"
+        android:text="Maybe later"
+        android:textColor="#13275E"
+        android:textSize="14sp" />
+
+</LinearLayout>

@@ -45,6 +45,7 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/place_icon_iv"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="9dp"
@@ -95,7 +96,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="9dp"
                             android:fontFamily="@font/poppins_bold"
-                            android:text="Branch:"
+                            android:text="Branch : "
                             android:textColor="#353E83"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -111,6 +112,7 @@
                             android:textSize="14sp" />
 
                         <ImageView
+                            android:id="@+id/add_to_favorite_iv"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:background="@drawable/circle_shadow"
@@ -191,7 +193,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="9dp"
                         android:fontFamily="@font/poppins"
-                        android:text="Duration:"
+                        android:text="Duration : "
                         android:textColor="#13275E"
                         android:textSize="14sp" />
 
@@ -208,9 +210,9 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="18dp"
+                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/poppins"
-                        android:text="Check-in time:"
+                        android:text="Check-in time : "
                         android:textColor="#13275E"
                         android:textSize="14sp" />
 

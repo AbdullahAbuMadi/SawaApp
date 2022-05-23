@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <ImageView
+        android:id="@+id/checkout_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/starbucks_icon" />
+
+    <TextView
+        android:id="@+id/place_name_tv_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Starbucks"
+        android:textColor="#353E83"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:fontFamily="@font/poppins"
+        android:text="Thank you for visiting"
+        android:textColor="#353E83"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/branch_name_tv_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text="Starbucks Abdoun branch"
+        android:textColor="#353E83"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="You Have Spent "
+            android:textColor="#E64AA4"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/spent_time_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="02 : 34 : 13"
+            android:textColor="#E64AA4"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/checkout_btn_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#E64AA4"
+        android:fontFamily="@font/poppins"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        android:paddingStart="60dp"
+        android:paddingEnd="60dp"
+        android:text="Check-out"
+        app:cornerRadius="15dp"
+        app:icon="@drawable/ic_checkout_btn" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/cancel_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:clickable="true"
+        android:fontFamily="@font/poppins"
+        android:text="Cancel"
+        android:textColor="#13275E"
+        android:textSize="14sp" />
+
+</LinearLayout>

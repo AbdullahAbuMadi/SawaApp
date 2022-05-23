@@ -18,6 +18,7 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
 
 private const val CAMERA_REQUEST_CODE = 101
@@ -27,6 +28,8 @@ class ScannerActivity : BaseActivity() {
     private lateinit var codeScanner: CodeScanner
     private lateinit var binding: ActivityScannerBinding
     private var placeName: String? = null
+    private var branchName: String? = null
+    private var placeIcon: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,35 +58,43 @@ class ScannerActivity : BaseActivity() {
             formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
             // ex. listOf(BarcodeFormat.QR_CODE)
             autoFocusMode = AutoFocusMode.SAFE // or CONTINUOUS
-            scanMode = ScanMode.SINGLE // or CONTINUOUS or PREVIEW
+            scanMode = ScanMode.SINGLE// or CONTINUOUS or PREVIEW
             isAutoFocusEnabled = true // Whether to enable auto focus or not
             isFlashEnabled = false // Whether to enable flash or not
 
             //Callbacks
             decodeCallback = DecodeCallback {
                 runOnUiThread {
-                    placeName = it.text
-                    val builder = AlertDialog.Builder(this@ScannerActivity)
-                    //set title for alert dialog
-                    builder.setTitle("$placeName!")
+                    val builder = MaterialAlertDialogBuilder(this@ScannerActivity,R.style.MyThemeOverlayAlertDialog)
                     //set message for alert dialog
                     builder.setMessage("Click YES To Check_In")
-                    builder.setIcon(R.drawable.starbucks_icon)
+                    if (it.text == "Starbucks Amman Branch") {
+                        builder.setTitle("${it.text}!")
+                        placeIcon = R.drawable.starbucks_icon
+                        placeName = "Starbucks"
+                        branchName = "Starbucks Amman"
+                        builder.setIcon(placeIcon ?: 0)
+
+                    } else {
+                        builder.setTitle("${it.text}!")
+                        placeIcon = R.drawable.carefour_icon
+                        placeName = "Carrefour"
+                        branchName = "Carrefour CityMall"
+                        builder.setIcon(placeIcon ?: 0)
+                    }
 
                     //performing positive action
                     builder.setPositiveButton("Yes") { _, _ ->
                         val intent = Intent(this@ScannerActivity, HomeActivity::class.java)
+                        intent.putExtra("placeIcon", placeIcon)
                         intent.putExtra("placeName", placeName)
+                        intent.putExtra("branchName", branchName)
                         startActivity(intent)
                         finish()
                     }
 
-                    // Create the AlertDialog
-                    val alertDialog: AlertDialog = builder.create()
-                    // Set other dialog properties
-                    alertDialog.setCancelable(false)
-                    alertDialog.show()
-
+                    val dialog = builder.create()
+                    dialog.show()
                 }
             }
         }
