@@ -40,6 +40,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private val mDrawerLayout: DrawerLayout by lazy {
         findViewById(R.id.drawer)
     }
+
     private val mNavigationView: NavigationView by lazy {
         findViewById(R.id.nav_view)
     }
