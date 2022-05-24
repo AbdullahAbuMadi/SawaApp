@@ -32,6 +32,7 @@ open class BaseActivity : AppCompatActivity() {
     //stop watch
     private lateinit var serviceIntent: Intent
     private var time = 0.0
+    var timerStarted = false
 
     val homeBinding: ActivityHomeBinding by lazy {
         ActivityHomeBinding.inflate(layoutInflater)
@@ -116,13 +117,15 @@ open class BaseActivity : AppCompatActivity() {
     fun startTimer() {
         serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
         startService(serviceIntent)
+        timerStarted = true
     }
 
     fun stopTimer() {
         stopService(serviceIntent)
+        timerStarted = false
     }
 
-    val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
+    private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
             homeBinding.includeCheckedInPlace.durationCounterTv.text = getTimeStringFromDouble(time)

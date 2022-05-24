@@ -304,7 +304,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     applicationContext,
                     Constants.ENGLISH_LANGUAGE_LOCALE
                 )
-                stopTimer()
+                if (timerStarted) stopTimer()
                 recreateActivity()
             }
 
@@ -317,7 +317,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     applicationContext,
                     Constants.ARABIC_LANGUAGE_LOCALE
                 )
-                stopTimer()
+                if (timerStarted) stopTimer()
                 recreateActivity()
             }
 
@@ -327,9 +327,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     applicationContext, Constants.BLUE_CHECKBOX_CHECKED
                 )
                 sharedPreference.setAppTheme(applicationContext, Constants.THEME_BLUE)
-                stopTimer()
+                if (timerStarted) stopTimer()
                 recreateActivity()
-
             }
             R.id.pink_checkbox -> {
                 sharedPreference.saveThemesCheckBoxState(
@@ -337,7 +336,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     applicationContext, Constants.PINK_CHECKBOX_CHECKED
                 )
                 sharedPreference.setAppTheme(applicationContext, Constants.THEME_PINK)
-                stopTimer()
+                if (timerStarted) stopTimer()
                 recreateActivity()
             }
             R.id.check_in_button -> {
