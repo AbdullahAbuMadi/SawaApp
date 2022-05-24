@@ -67,7 +67,7 @@ class ScannerActivity : BaseActivity() {
                 runOnUiThread {
                     val builder = MaterialAlertDialogBuilder(this@ScannerActivity,R.style.MyThemeOverlayAlertDialog)
                     //set message for alert dialog
-                    builder.setMessage("Click YES To Check_In")
+                    builder.setMessage(getString(R.string.dialog_message))
                     if (it.text == "Starbucks Amman Branch") {
                         builder.setTitle("${it.text}!")
                         placeIcon = R.drawable.starbucks_icon
@@ -84,7 +84,7 @@ class ScannerActivity : BaseActivity() {
                     }
 
                     //performing positive action
-                    builder.setPositiveButton("Yes") { _, _ ->
+                    builder.setPositiveButton(getString(R.string.yes_dilog_click)) { _, _ ->
                         val intent = Intent(this@ScannerActivity, HomeActivity::class.java)
                         intent.putExtra("placeIcon", placeIcon)
                         intent.putExtra("placeName", placeName)

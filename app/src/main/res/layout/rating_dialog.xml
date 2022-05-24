@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
         android:fontFamily="@font/poppins"
-        android:text="Rate your experience"
+        android:text="@string/rate_your_experience"
         android:textColor="#353E83"
         android:textSize="20sp" />
 
@@ -56,7 +56,7 @@
         android:padding="15dp"
         android:paddingStart="100dp"
         android:paddingEnd="100dp"
-        android:text="Save"
+        android:text="@string/save"
         android:textAllCaps="false"
         android:textColor="#ADADAD"
         app:cornerRadius="15dp" />
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/poppins"
-        android:text="Maybe later"
+        android:text="@string/maybe_later"
         android:textColor="#13275E"
         android:textSize="14sp" />
 

@@ -25,10 +25,25 @@
     <string name="blue">Blue</string>
     <string name="pink">Pink</string>
     <string name="scan_something">Scan something...</string>
+    <string name="branch">Branch :</string>
+    <string name="capacity">Capacity:</string>
+    <string name="duration">Duration :</string>
+    <string name="check_in_time">Check-in time :</string>
+    <string name="check_out">Check-out</string>
+    <string name="check_in_n_another_place">Check-in\n another place</string>
+    <string name="offers">Offers</string>
 
-    <!--    //dialog-->
     <string name="dialogTitle" translatable="false">Delete File</string>
     <string name="dialogMessage" translatable="false">Deleting file may be harm your system</string>
+    <string name="rate_your_experience">Rate your experience</string>
+    <string name="save">Save</string>
+    <string name="maybe_later">Maybe later</string>
+    <string name="thank_you_for_visiting">Thank you for visiting</string>
+    <string name="you_have_spent">You Have Spent</string>
+    <string name="check_out_btn">Check-out</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_message">Click YES To Check_In</string>
+    <string name="yes_dilog_click">Yes</string>
 
 
 </resources>

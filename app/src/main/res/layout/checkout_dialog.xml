@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:fontFamily="@font/poppins"
-        android:text="Thank you for visiting"
+        android:text="@string/thank_you_for_visiting"
         android:textColor="#353E83"
         android:textSize="20sp" />
 
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins"
-            android:text="You Have Spent "
+            android:text="@string/you_have_spent"
             android:textColor="#E64AA4"
             android:textSize="16sp" />
 
@@ -76,19 +76,19 @@
         android:gravity="center_vertical"
         android:padding="15dp"
         android:paddingStart="60dp"
+        android:textAllCaps="false"
         android:paddingEnd="60dp"
-        android:text="Check-out"
+        android:text="@string/check_out_btn"
         app:cornerRadius="15dp"
-        app:icon="@drawable/ic_checkout_btn" />
+        app:icon="@drawable/ic_checkout_btn"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/cancel_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:clickable="true"
         android:fontFamily="@font/poppins"
-        android:text="Cancel"
+        android:text="@string/cancel"
         android:textColor="#13275E"
         android:textSize="14sp" />
 

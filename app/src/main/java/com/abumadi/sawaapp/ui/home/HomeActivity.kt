@@ -1,9 +1,6 @@
 package com.abumadi.sawaapp.ui.home
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -15,6 +12,7 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -22,16 +20,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.data.constantsclasses.Destinations
 import com.abumadi.sawaapp.data.constantsclasses.Places
-import com.abumadi.sawaapp.databinding.ActivityHomeBinding
 import com.abumadi.sawaapp.databinding.CheckoutDialogBinding
 import com.abumadi.sawaapp.databinding.RatingDialogBinding
 import com.abumadi.sawaapp.others.Constants
-import com.abumadi.sawaapp.others.TimerService
 import com.abumadi.sawaapp.ui.base.BaseActivity
 import com.abumadi.sawaapp.ui.scanner.ScannerActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
-import kotlin.math.roundToInt
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, TextWatcher,
@@ -48,9 +43,27 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
     }
 
-    private val homeBinding: ActivityHomeBinding by lazy {
-        ActivityHomeBinding.inflate(layoutInflater)
+    //checkout dialog binding
+    private val checkoutDialogBinding: CheckoutDialogBinding by lazy {
+        CheckoutDialogBinding.bind(
+            layoutInflater.inflate(
+                R.layout.checkout_dialog,
+                null
+            )
+        )
     }
+
+    //rating dialog binding
+    private val ratingDialogBinding by lazy {
+        RatingDialogBinding.bind(
+            layoutInflater.inflate(
+                R.layout.rating_dialog,
+                null
+            )
+        )
+    }
+    private lateinit var ratingDialog: AlertDialog
+    private lateinit var checkoutDialog: AlertDialog
     private lateinit var blueCheckbox: CompoundButton
     private lateinit var pinkCheckbox: CompoundButton
     private lateinit var arabicCheckbox: CompoundButton
@@ -58,13 +71,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var placeName: String? = null
     private var branchName: String? = null
     private var placeIcon: Int? = null
-
     private var isFavouriteChecked = false
-
-    //stop watch
-    private var timerStarted = false
-    private lateinit var serviceIntent: Intent
-    private var time = 0.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,12 +97,17 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (placeName != null) {
             homeBinding.includeCheckInButton.root.visibility = View.GONE
             homeBinding.includeCheckedInPlace.root.visibility = View.VISIBLE
-            timerServiceSetUp()
-            startTimer()
-            setUpCheckedInPlaceInformation()
             homeBinding.includeCheckedInPlace.checkOutCv.setOnClickListener(this)
             homeBinding.includeCheckedInPlace.addToFavoriteIv.setOnClickListener(this)
             homeBinding.includeCheckedInPlace.checkInAnotherPlace.setOnClickListener(this)
+            checkoutDialogBinding.checkoutBtnDialog.setOnClickListener(this)
+            ratingDialogBinding.maybeLaterDialog.setOnClickListener(this)
+            checkoutDialogBinding.cancelDialog.setOnClickListener(this)
+            timerServiceSetUp()
+            startTimer()
+            setUpCheckedInPlaceInformation()
+            setUpCheckoutDialog()
+            setUpRatingDialog()
         } else {
             homeBinding.includeCheckInButton.root.visibility = View.VISIBLE
             homeBinding.includeCheckInButton.checkInButton.setOnClickListener(this)
@@ -110,16 +122,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     //TODO Add checkout Dialog:done
     //TODO Add fav click :done
 
-    private fun timerServiceSetUp() {
-        serviceIntent = Intent(applicationContext, TimerService::class.java)
-        registerReceiver(updateTime, IntentFilter(TimerService.TIMER_UPDATED))
-    }
-
-    override fun onDestroy() {
-        stopTimer()
-        super.onDestroy()
-    }
-
     private fun setUpCheckedInPlaceInformation() {
         homeBinding.includeCheckedInPlace.placeIconIv.setImageResource(placeIcon ?: 0)
         homeBinding.includeCheckedInPlace.checkedInPlaceTv.text = "$placeName"
@@ -132,53 +134,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         placeIcon = intent.getIntExtra("placeIcon", 0)
         placeName = intent.getStringExtra("placeName")
         branchName = intent.getStringExtra("branchName")
-    }
-
-    private fun startTimer() {
-        serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
-        startService(serviceIntent)
-        timerStarted = true
-    }
-
-    private fun stopTimer() {
-        stopService(serviceIntent)
-        timerStarted = false
-    }
-
-    private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
-            homeBinding.includeCheckedInPlace.durationCounterTv.text = getTimeStringFromDouble(time)
-        }
-    }
-
-    private fun getTimeStringFromDouble(time: Double): String {
-        val resultInt = time.roundToInt()
-        val hours = resultInt % 86400 / 3600
-        val minutes = resultInt % 86400 % 3600 / 60
-        val seconds = resultInt % 86400 % 3600 % 60
-
-        return makeTimeString(hours, minutes, seconds)
-    }
-
-    private fun getTimeStringFromDoubleWithoutSeconds(time: Double): String {
-        val resultInt = time.roundToInt()
-        val hours = resultInt % 86400 / 3600
-        val minutes = resultInt % 86400 % 3600 / 60
-
-        return makeTimeStringWithOutSeconds(hours, minutes)
-    }
-
-    private fun makeTimeString(hour: Int, min: Int, sec: Int): String =
-        String.format("%02d:%02d:%02d", hour, min, sec)
-
-    private fun makeTimeStringWithOutSeconds(hour: Int, min: Int): String =
-        String.format("%02d:%02d", hour, min)
-
-    override fun onBackPressed() {
-        stopTimer()
-        finishAffinity()
-        super.onBackPressed()
     }
 
     private fun navDrawerSetUp() {
@@ -349,6 +304,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     applicationContext,
                     Constants.ENGLISH_LANGUAGE_LOCALE
                 )
+                stopTimer()
                 recreateActivity()
             }
 
@@ -361,6 +317,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     applicationContext,
                     Constants.ARABIC_LANGUAGE_LOCALE
                 )
+                stopTimer()
                 recreateActivity()
             }
 
@@ -370,6 +327,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     applicationContext, Constants.BLUE_CHECKBOX_CHECKED
                 )
                 sharedPreference.setAppTheme(applicationContext, Constants.THEME_BLUE)
+                stopTimer()
                 recreateActivity()
 
             }
@@ -379,6 +337,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     applicationContext, Constants.PINK_CHECKBOX_CHECKED
                 )
                 sharedPreference.setAppTheme(applicationContext, Constants.THEME_PINK)
+                stopTimer()
                 recreateActivity()
             }
             R.id.check_in_button -> {
@@ -387,63 +346,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             R.id.check_out_cv -> {
                 stopTimer()
-
-                val checkoutDialogBinding = CheckoutDialogBinding.bind(
-                    layoutInflater.inflate(
-                        R.layout.checkout_dialog,
-                        null
-                    )
-                )
-                val checkoutDialogBuilder =
-                    MaterialAlertDialogBuilder(this@HomeActivity, R.style.MyThemeOverlayAlertDialog)
-                checkoutDialogBuilder.setView(checkoutDialogBinding.root)
-                val checkoutDialog = checkoutDialogBuilder.create()
-                //rating dialog
-                val ratingDialogBinding = RatingDialogBinding.bind(
-                    layoutInflater.inflate(
-                        R.layout.rating_dialog,
-                        null
-                    )
-                )
-                val ratingDialogBuilder =
-                    MaterialAlertDialogBuilder(this@HomeActivity, R.style.MyThemeOverlayAlertDialog)
-                ratingDialogBuilder.setView(ratingDialogBinding.root)
-                val ratingDialog = ratingDialogBuilder.create()
-
-                ratingDialogBinding.ratingIv.setImageResource(placeIcon ?: 0)
-                ratingDialogBinding.placeNameTvDialogRating.text = placeName
-                ratingDialogBinding.ratingBar.setOnRatingBarChangeListener { ratingBar, rating, b ->
-                    ratingDialogBinding.saveBtnDialog.setTextColor(Color.parseColor("#FFFFFF"))
-                    ratingDialogBinding.saveBtnDialog.setBackgroundColor(Color.parseColor("#599EF0"))
-                    ratingDialogBinding.saveBtnDialog.setOnClickListener {
-                        ratingDialog.dismiss()
-                        Toast.makeText(
-                            this@HomeActivity,
-                            "You have rated $placeName with : " + ratingDialogBinding.ratingBar.rating.toInt()
-                                .toString() + " stars",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-
-                ratingDialogBinding.maybeLaterDialog.setOnClickListener {
-                    ratingDialog.dismiss()
-                }
-                checkoutDialogBinding.checkoutIv.setImageResource(placeIcon ?: 0)
-                checkoutDialogBinding.placeNameTvDialog.text = "$placeName"
-                checkoutDialogBinding.branchNameTvDialog.text = "$branchName"
                 checkoutDialogBinding.spentTimeDialog.text =
-                    homeBinding.includeCheckedInPlace.durationCounterTv.text.toString()
+                    homeBinding.includeCheckedInPlace.durationCounterTv.text
                 checkoutDialog.show()
-                checkoutDialogBinding.checkoutBtnDialog.setOnClickListener {
-                    checkoutDialog.dismiss()
-                    ratingDialog.show()
-                    Toast.makeText(this@HomeActivity, "checked_out", Toast.LENGTH_SHORT).show()
-                }
-
-                checkoutDialogBinding.cancelDialog.setOnClickListener {
-                    checkoutDialog.dismiss()
-                }
             }
 
             R.id.add_to_favorite_iv -> {
@@ -460,6 +365,63 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 startActivity(Intent(this, ScannerActivity::class.java))
                 stopTimer()
             }
+            R.id.checkout_btn_dialog -> {
+                checkoutDialog.cancel()
+                ratingDialog.show()
+                Toast.makeText(this@HomeActivity, "checked_out", Toast.LENGTH_SHORT).show()
+            }
+
+            R.id.save_btn_dialog -> {
+                ratingDialog.dismiss()
+                Toast.makeText(
+                    this@HomeActivity,
+                    "You have rated $placeName with : " + ratingDialogBinding.ratingBar.rating.toInt()
+                        .toString() + " stars",
+                    Toast.LENGTH_LONG
+                ).show()
+                stopTimer()
+                recreateActivity()
+            }
+
+            R.id.maybe_later_dialog -> {
+                ratingDialog.dismiss()
+            }
+
+            R.id.cancel_dialog -> {
+                checkoutDialog.dismiss()
+            }
         }
+    }
+
+    private fun setUpRatingDialog() {
+        ratingDialog = setUpRatingDialogBuilder().create()
+        ratingDialogBinding.ratingIv.setImageResource(placeIcon ?: 0)
+        ratingDialogBinding.placeNameTvDialogRating.text = placeName
+        ratingDialogBinding.ratingBar.setOnRatingBarChangeListener { ratingBar, rating, b ->
+            ratingDialogBinding.saveBtnDialog.setOnClickListener(this)
+            ratingDialogBinding.saveBtnDialog.setTextColor(Color.parseColor("#FFFFFF"))
+            ratingDialogBinding.saveBtnDialog.setBackgroundColor(Color.parseColor("#599EF0"))
+        }
+    }
+
+    private fun setUpCheckoutDialog() {
+        checkoutDialog = setUpCheckoutDialogBuilder().create()
+        checkoutDialogBinding.checkoutIv.setImageResource(placeIcon ?: 0)
+        checkoutDialogBinding.placeNameTvDialog.text = "$placeName"
+        checkoutDialogBinding.branchNameTvDialog.text = "$branchName"
+    }
+
+    private fun setUpRatingDialogBuilder(): MaterialAlertDialogBuilder {
+        val ratingDialogBuilder =
+            MaterialAlertDialogBuilder(this@HomeActivity, R.style.MyThemeOverlayAlertDialog)
+        ratingDialogBuilder.setView(ratingDialogBinding.root)
+        return ratingDialogBuilder
+    }
+
+    private fun setUpCheckoutDialogBuilder(): MaterialAlertDialogBuilder {
+        val checkoutDialogBuilder =
+            MaterialAlertDialogBuilder(this@HomeActivity, R.style.MyThemeOverlayAlertDialog)
+        checkoutDialogBuilder.setView(checkoutDialogBinding.root)
+        return checkoutDialogBuilder
     }
 }

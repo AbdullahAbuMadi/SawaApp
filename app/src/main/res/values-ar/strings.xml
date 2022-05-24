@@ -22,5 +22,23 @@
     <string name="blue">أزرق</string>
     <string name="pink">زهري</string>
     <string name="scan_something">امسح الكود ...</string>
-    <string name="you_have_checked_in">لقد قمت بتسجيل الدخول!</string>
+    <string name="you_have_checked_in">لقد قمت بتسجيل الدخول الى !</string>
+    <string name="branch">الفرع :</string>
+    <string name="capacity">الطاقة الاستيعابية :</string>
+    <string name="duration">المدة :</string>
+    <string name="check_in_time">وقت تسجيل الدخول :</string>
+    <string name="check_out">تسجيل الخروج</string>
+    <string name="check_in_n_another_place">تسجيل دخول مكان اخر</string>
+    <string name="offers">العروض</string>
+    <string name="rate_your_experience">قم بتقييم التجربة</string>
+    <string name="save">حفظ</string>
+    <string name="maybe_later">ذكرني لاحقا</string>
+    <string name="thank_you_for_visiting">شكرا جزيلا على زيارتك</string>
+    <string name="you_have_spent">لقد أمضيت من الوقت</string>
+    <string name="check_out_btn">تسجيل الخروج</string>
+    <string name="cancel">الغاء</string>
+    <string name="yes_dilog_click">حسنا</string>
+    <string name="dialog_message">اضغط "حسنا" لتسجيل الدخول</string>
+
+
 </resources>

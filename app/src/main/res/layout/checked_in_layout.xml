@@ -96,7 +96,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="9dp"
                             android:fontFamily="@font/poppins_bold"
-                            android:text="Branch : "
+                            android:text="@string/branch"
                             android:textColor="#353E83"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -134,7 +134,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="9dp"
                             android:fontFamily="@font/poppins"
-                            android:text="Capacity:"
+                            android:text="@string/capacity"
                             android:textColor="#13275E"
                             android:textSize="12sp" />
 
@@ -193,7 +193,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="9dp"
                         android:fontFamily="@font/poppins"
-                        android:text="Duration : "
+                        android:text="@string/duration"
                         android:textColor="#13275E"
                         android:textSize="14sp" />
 
@@ -212,7 +212,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:fontFamily="@font/poppins"
-                        android:text="Check-in time : "
+                        android:text="@string/check_in_time"
                         android:textColor="#13275E"
                         android:textSize="14sp" />
 
@@ -261,7 +261,7 @@
                             android:layout_marginTop="30dp"
                             android:gravity="center"
                             android:fontFamily="@font/poppins"
-                            android:text="Check-out"
+                            android:text="@string/check_out"
                             android:textColor="#13275E"
                             android:textSize="14sp" />
 
@@ -295,7 +295,7 @@
                             android:layout_marginTop="13dp"
                             android:fontFamily="@font/poppins"
                             android:gravity="center"
-                            android:text="Check-in\n another place"
+                            android:text="@string/check_in_n_another_place"
                             android:textColor="#13275E"
                             android:textSize="14sp" />
 
@@ -327,7 +327,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="30dp"
                             android:fontFamily="@font/poppins"
-                            android:text="Offers"
+                            android:text="@string/offers"
                             android:textColor="#13275E"
                             android:textSize="14sp" />
 
