@@ -1,8 +1,7 @@
 package com.abumadi.sawaapp.sharedpreference
 
 import android.content.Context
-import android.content.SharedPreferences
-import com.abumadi.sawaapp.CheckedInInfo
+import com.abumadi.sawaapp.data.source.CheckedInInfo
 import com.abumadi.sawaapp.others.Constants
 import com.google.gson.Gson
 
@@ -124,12 +123,6 @@ class SharedPreferencesManager {
         prefs.edit().apply {
             putString(Constants.PREF_CHECKED_IN_PLACE_NAME_KEY, Gson().toJson(checkedInInfo))
         }.apply()
-
-//        prefs.edit().apply {
-//            putString(Constants.PREF_CHECKED_IN_PLACE_NAME_KEY, checkedInInfo.placeName)
-//            putInt(Constants.PREF_CHECKED_IN_PLACE_ICON_KEY, checkedInInfo.placeIcon)
-//            putString(Constants.PREF_CHECKED_IN_PLACE_BRANCH_KEY, checkedInInfo.branchName)
-//        }.apply()
     }
 
     fun getCheckedInInfo(applicationContext: Context): CheckedInInfo? {
@@ -139,12 +132,7 @@ class SharedPreferencesManager {
                 Context.MODE_PRIVATE
             )
 
-        return Gson().fromJson(prefs.getString(Constants.PREF_CHECKED_IN_PLACE_NAME_KEY, null),CheckedInInfo::class.java)
-
-//        return prefs.apply {
-//            getString(Constants.PREF_CHECKED_IN_PLACE_NAME_KEY, "no place yet")
-//            getInt(Constants.PREF_CHECKED_IN_PLACE_ICON_KEY, 0)
-//            getString(Constants.PREF_CHECKED_IN_PLACE_BRANCH_KEY, "no branch yet")
-//        }
+        return Gson().fromJson(prefs.getString(Constants.PREF_CHECKED_IN_PLACE_NAME_KEY, null),
+            CheckedInInfo::class.java)
     }
 }

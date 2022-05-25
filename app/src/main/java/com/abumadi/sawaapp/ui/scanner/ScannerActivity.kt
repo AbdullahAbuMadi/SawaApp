@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.abumadi.sawaapp.CheckedInInfo
+import com.abumadi.sawaapp.data.source.CheckedInInfo
 import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.databinding.ActivityScannerBinding
 import com.abumadi.sawaapp.others.Constants

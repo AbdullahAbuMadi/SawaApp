@@ -6,9 +6,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.lifecycle.ViewModelProvider
-import com.abumadi.sawaapp.CheckedInInfo
+import com.abumadi.sawaapp.data.source.CheckedInInfo
 import com.abumadi.sawaapp.sharedpreference.SharedPreferencesManager
 import com.abumadi.sawaapp.di.component.DaggerAppComponent
 import com.abumadi.sawaapp.di.modules.AppModule

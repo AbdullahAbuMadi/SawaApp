@@ -1,4 +1,4 @@
-package com.abumadi.sawaapp
+package com.abumadi.sawaapp.data.source
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
