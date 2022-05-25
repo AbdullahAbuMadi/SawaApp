@@ -21,6 +21,10 @@ class AppRepository @Inject constructor(
         return db.getAppLanguage(context)
     }
 
+    fun getCurrentUi(): String? {
+        return db.getAppCurrentUi(context)
+    }
+
     fun getCheckedLanguageCheckboxes(key: String): Boolean {
         return db.getLanguagesCheckBoxState(context, key)
     }

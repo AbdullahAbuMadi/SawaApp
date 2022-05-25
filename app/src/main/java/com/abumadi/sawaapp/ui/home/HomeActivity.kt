@@ -68,9 +68,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var pinkCheckbox: CompoundButton
     private lateinit var arabicCheckbox: CompoundButton
     private lateinit var englishCheckbox: CompoundButton
-    private var placeName: String? = null
-    private var branchName: String? = null
-    private var placeIcon: Int? = null
+
     private var isFavouriteChecked = false
 
 
@@ -94,7 +92,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         homeBinding.includeBottomSheet.whereToEd.addTextChangedListener(this)
         homeBinding.includeBottomSheet.whereToEd.setOnTouchListener(this)
 
-        if (placeName != null) {
+        if (sharedPreference.getAppCurrentUi(this) == Constants.CHECK_IN_LAYOUT_UI) {
             homeBinding.includeCheckInButton.root.visibility = View.GONE
             homeBinding.includeCheckedInPlace.root.visibility = View.VISIBLE
             homeBinding.includeCheckedInPlace.checkOutCv.setOnClickListener(this)
@@ -108,32 +106,31 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             setUpCheckedInPlaceInformation()
             setUpCheckoutDialog()
             setUpRatingDialog()
-        } else {
+        } else if (sharedPreference.getAppCurrentUi(this) == Constants.BUTTON_UI) {
             homeBinding.includeCheckInButton.root.visibility = View.VISIBLE
             homeBinding.includeCheckInButton.checkInButton.setOnClickListener(this)
         }
     }
 
-    //suppose to divide on 1000 >>because it is in millis
-    //TODO move it to base activity:
-    //TODO Solve the dialog problem:done
-    //TODO Solve changing theme and language issues:
-    //TODO Add Rating Dialog:done
-    //TODO Add checkout Dialog:done
-    //TODO Add fav click :done
-
     private fun setUpCheckedInPlaceInformation() {
-        homeBinding.includeCheckedInPlace.placeIconIv.setImageResource(placeIcon ?: 0)
-        homeBinding.includeCheckedInPlace.checkedInPlaceTv.text = "$placeName"
-        homeBinding.includeCheckedInPlace.placeBranchTv.text = "$branchName"
+        homeBinding.includeCheckedInPlace.placeIconIv.setImageResource(
+            sharedPreference.getCheckedInInfo(
+                this
+            )?.placeIcon ?: 0
+        )
+        homeBinding.includeCheckedInPlace.checkedInPlaceTv.text =
+            "${sharedPreference.getCheckedInInfo(this)?.placeName}"
+        homeBinding.includeCheckedInPlace.placeBranchTv.text =
+            "${sharedPreference.getCheckedInInfo(this)?.branchName}"
         homeBinding.includeCheckedInPlace.systemTime.text =
             getTimeStringFromDoubleWithoutSeconds(((System.currentTimeMillis() + 10800000) / 1000).toDouble())
     }
 
     private fun getDataFromQrCodeScanner() {
-        placeIcon = intent.getIntExtra("placeIcon", 0)
-        placeName = intent.getStringExtra("placeName")
-        branchName = intent.getStringExtra("branchName")
+        checkInInfo = intent.getParcelableExtra("checkedInInfo")
+        placeName = checkInInfo?.placeName
+        placeIcon = checkInInfo?.placeIcon
+        branchName = checkInInfo?.branchName
     }
 
     private fun navDrawerSetUp() {
@@ -374,10 +371,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ratingDialog.dismiss()
                 Toast.makeText(
                     this@HomeActivity,
-                    "You have rated $placeName with : " + ratingDialogBinding.ratingBar.rating.toInt()
+                    "You have rated ${sharedPreference.getCheckedInInfo(this)?.placeName} with : " + ratingDialogBinding.ratingBar.rating.toInt()
                         .toString() + " stars",
                     Toast.LENGTH_LONG
                 ).show()
+                sharedPreference.setAppCurrentUi(applicationContext, Constants.BUTTON_UI)
                 stopTimer()
                 recreateActivity()
             }
@@ -394,8 +392,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun setUpRatingDialog() {
         ratingDialog = setUpRatingDialogBuilder().create()
-        ratingDialogBinding.ratingIv.setImageResource(placeIcon ?: 0)
-        ratingDialogBinding.placeNameTvDialogRating.text = placeName
+        ratingDialogBinding.ratingIv.setImageResource(
+            sharedPreference.getCheckedInInfo(this)?.placeIcon ?: 0
+        )
+        ratingDialogBinding.placeNameTvDialogRating.text =
+            "${sharedPreference.getCheckedInInfo(this)?.placeName}"
         ratingDialogBinding.ratingBar.setOnRatingBarChangeListener { ratingBar, rating, b ->
             ratingDialogBinding.saveBtnDialog.setOnClickListener(this)
             ratingDialogBinding.saveBtnDialog.setTextColor(Color.parseColor("#FFFFFF"))
@@ -405,9 +406,12 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun setUpCheckoutDialog() {
         checkoutDialog = setUpCheckoutDialogBuilder().create()
-        checkoutDialogBinding.checkoutIv.setImageResource(placeIcon ?: 0)
-        checkoutDialogBinding.placeNameTvDialog.text = "$placeName"
-        checkoutDialogBinding.branchNameTvDialog.text = "$branchName"
+        checkoutDialogBinding.checkoutIv.setImageResource(
+            sharedPreference.getCheckedInInfo(this)?.placeIcon ?: 0
+        )
+        checkoutDialogBinding.placeNameTvDialog.text =
+            "${sharedPreference.getCheckedInInfo(this)?.placeName}"
+        checkoutDialogBinding.branchNameTvDialog.text =  "${sharedPreference.getCheckedInInfo(this)?.branchName}"
     }
 
     private fun setUpRatingDialogBuilder(): MaterialAlertDialogBuilder {

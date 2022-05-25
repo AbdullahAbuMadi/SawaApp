@@ -11,7 +11,10 @@ import org.junit.Test
 
 const val DEFAULT_THEME = Constants.DEFAULT_THEME
 const val DEFAULT_LANGUAGE = Constants.DEFAULT_LANGUAGE
+const val DEFAULT_UI = Constants.DEFAULT_UI
 const val ENGLISH_LANGUAGE = Constants.ENGLISH_LANGUAGE_LOCALE
+const val BUTTON_UI = Constants.BUTTON_UI
+const val CHECK_IN_LAYOUT_UI = Constants.CHECK_IN_LAYOUT_UI
 const val ARABIC_LANGUAGE = Constants.ARABIC_LANGUAGE_LOCALE
 const val PINK_THEME = Constants.THEME_PINK
 const val BLUE_THEME = Constants.THEME_BLUE
@@ -93,5 +96,39 @@ class BaseViewModelTest {
         val defaultLanguage = baseViewModel.getDefaultLanguage()
         assertEquals(currentLanguage, ARABIC_LANGUAGE)
         assertEquals(defaultLanguage, false)
+    }
+
+    //3-setAppCurrentUi
+    //if appCurrentUiExecute default Ui _current Ui will be Button and is default will be true
+    @Test
+    fun setAppCurrentUi_ifAppCurrentUiExecutedDefaultUi_currentUiWillBeButtonUiAndIsDefaultWillBeTrue() {
+        every { baseUseCase.appCurrentUiExecute() } returns DEFAULT_UI
+        baseViewModel.setAppCurrentUi()
+        val currentUi = baseViewModel.getCurrentUi()
+        val defaultUi = baseViewModel.getDefaultUi()
+        assertEquals(BUTTON_UI, currentUi)
+        assertEquals(true, defaultUi)
+    }
+
+    //if appCurrentUiExecute Button Ui _current Ui will be Button and is default will be false
+    @Test
+    fun setAppCurrentUi_ifAppUiExecuteButtonUi_currentUiWillBeButtonAndIsDefaultWillBeFalse() {
+        every { baseUseCase.appCurrentUiExecute() } returns BUTTON_UI
+        baseViewModel.setAppCurrentUi()
+        val currentUi = baseViewModel.getCurrentUi()
+        val defaultUi = baseViewModel.getDefaultUi()
+        assertEquals(BUTTON_UI, currentUi)
+        assertEquals(false, defaultUi)
+    }
+
+    //if appCurrentUiExecute ar Ui _current Ui will be ar and is default will be false
+    @Test
+    fun setAppCurrentUi_ifAppUiExecuteCheckInUi_currentUiWillBeCheckInAndIsDefaultWillBeFalse() {
+        every { baseUseCase.appCurrentUiExecute() } returns CHECK_IN_LAYOUT_UI
+        baseViewModel.setAppCurrentUi()
+        val currentUi = baseViewModel.getCurrentUi()
+        val defaultUi = baseViewModel.getDefaultUi()
+        assertEquals(CHECK_IN_LAYOUT_UI, currentUi)
+        assertEquals(false, defaultUi)
     }
 }

@@ -28,6 +28,9 @@ class HomeViewModel @Inject constructor(private val homeUseCase: HomeUseCase) : 
     val isEnglishCheckboxChecked: LiveData<Boolean>
         get() = _isEnglishCheckboxChecked
 
+    private val _isHomeCurrentUiButton = MutableLiveData<Boolean>()
+    private val _isHomeCurrentUiCheckoutLayout = MutableLiveData<Boolean>()
+
 
     fun themeCheckboxesBehavior() {
         if (homeUseCase.themeCheckboxStateExecuted(Constants.BLUE_CHECKBOX_CHECKED)) {

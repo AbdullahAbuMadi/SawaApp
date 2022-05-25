@@ -12,4 +12,8 @@ class BaseUseCase @Inject constructor(private val appRepository: AppRepository) 
     fun appLanguageExecute(): String? {
         return appRepository.getCurrentLanguage()
     }
+
+    fun appCurrentUiExecute(): String? {
+        return appRepository.getCurrentUi()
+    }
 }

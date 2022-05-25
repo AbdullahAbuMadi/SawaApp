@@ -10,8 +10,10 @@ class BaseViewModel @Inject constructor(private val baseUseCase: BaseUseCase) : 
 
     private var currentTheme: Int? = null
     private var currentLanguage: String? = null
+    private var currentUi: String? = null
     private var isDefaultTheme: Boolean? = null
     private var isDefaultLanguage: Boolean? = null
+    private var isDefaultUi: Boolean? = null
 
     fun setAppTheme() {
         if (baseUseCase.appThemeExecute() == Constants.DEFAULT_THEME) {
@@ -42,6 +44,21 @@ class BaseViewModel @Inject constructor(private val baseUseCase: BaseUseCase) : 
         }
     }
 
+    fun setAppCurrentUi() {
+        if (baseUseCase.appCurrentUiExecute() == Constants.DEFAULT_UI) {
+            currentUi = Constants.BUTTON_UI
+            isDefaultUi = true
+        } else {
+            if (baseUseCase.appCurrentUiExecute() == Constants.BUTTON_UI) {
+                currentUi = Constants.BUTTON_UI
+                isDefaultUi = false
+            } else if (baseUseCase.appCurrentUiExecute() == Constants.CHECK_IN_LAYOUT_UI) {
+                currentUi = Constants.CHECK_IN_LAYOUT_UI
+                isDefaultUi = false
+            }
+        }
+    }
+
     fun getCurrentTheme(): Int? {
         return this.currentTheme
     }
@@ -56,5 +73,13 @@ class BaseViewModel @Inject constructor(private val baseUseCase: BaseUseCase) : 
 
     fun getDefaultLanguage(): Boolean? {
         return this.isDefaultLanguage
+    }
+
+    fun getCurrentUi(): String? {
+        return this.currentUi
+    }
+
+    fun getDefaultUi(): Boolean? {
+        return this.isDefaultUi
     }
 }

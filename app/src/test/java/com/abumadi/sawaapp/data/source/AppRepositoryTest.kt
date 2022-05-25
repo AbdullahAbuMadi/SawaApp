@@ -8,6 +8,7 @@ import org.junit.Assert.*
 
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertFails
 
 const val SUCCESS_THEME = "success theme"
 const val SUCCESS_THEME_DEFAULT = "success theme default"
@@ -15,9 +16,13 @@ const val FAILED_THEME = "failed theme"
 const val FAILED_THEME_DEFAULT = "failed theme default"
 
 const val SUCCESS_LANGUAGE = "success language"
+const val SUCCESS_UI = "success ui"
 const val SUCCESS_LANGUAGE_DEFAULT = "success language default"
+const val SUCCESS_UI_DEFAULT = "success ui default"
 const val FAILED_LANGUAGE = "failed language"
+val FAILED_UI = Exception("failed ui")
 const val FAILED_LANGUAGE_DEFAULT = "failed language default"
+val FAILED_UI_DEFAULT = Exception("failed language default")
 
 const val SUCCESS_THEME_CHECKBOX_STATE = "success theme checkbox state"
 const val SUCCESS_THEME_CHECKBOX_STATE_DEFAULT = "success default theme checkbox state"
@@ -225,5 +230,38 @@ class AppRepositoryTest {
 
         val result = appRepository.getCheckedLanguageCheckboxes(FAILED_LANGUAGE_CHECKBOX_STATE)
         assertEquals(result, false)
+    }
+
+    //5-getCurrentUi
+    //if getCurrentUi function getUi successfully at first time app launching_UiPassedAndGetWillBeEqualed
+    @Test
+    fun getCurrentUi_ifUiGetsSuccessfullyFromDataBaseAtFirstTimeAppLaunching_uiPassedAndGetWillBeEqualed() {
+        every { sharedPreferencesDb.getAppCurrentUi(context) } returns SUCCESS_UI_DEFAULT
+        val result = appRepository.getCurrentUi()
+        assertEquals(SUCCESS_UI_DEFAULT, result)
+    }
+
+    //if getCurrentUi function getLanguage successfully_uiPassedAndGetWillBeEqualed
+    @Test
+    fun getCurrentUi_ifUiGetsSuccessfullyFromDataBase_uiPassedAndGetWillBeEqualed() {
+        every { sharedPreferencesDb.getAppCurrentUi(context) } returns SUCCESS_UI
+        val result = appRepository.getCurrentUi()
+        assertEquals(SUCCESS_UI, result)
+    }
+
+    //if getCurrentUi function getLanguage failed at first time app launching_uiPassedAndGetWillNotBeEqualed
+    @Test
+    fun getCurrentUi_ifUiGetsFailedFromDataBaseAtFirstTimeAppLaunching_uiPassedAndGetWillNotBeEqualed() {
+        every { sharedPreferencesDb.getAppCurrentUi(context) } throws FAILED_UI_DEFAULT
+        val result = assertFails { appRepository.getCurrentUi() }
+        assertNotEquals(SUCCESS_UI_DEFAULT, result)
+    }
+
+    //if getCurrentUi function getLanguage failed_uiPassedAndGetWillNotBeEqualed
+    @Test
+    fun getCurrentUi_ifUiGetsFailedFromDataBase_uiPassedAndGetWillNotBeEqualed() {
+        every { sharedPreferencesDb.getAppCurrentUi(context) } throws FAILED_UI
+        val result = assertFails { appRepository.getCurrentUi() }
+        assertNotEquals(SUCCESS_UI, result)
     }
 }

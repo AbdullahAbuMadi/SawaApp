@@ -1,7 +1,10 @@
 package com.abumadi.sawaapp.sharedpreference
 
 import android.content.Context
+import android.content.SharedPreferences
+import com.abumadi.sawaapp.CheckedInInfo
 import com.abumadi.sawaapp.others.Constants
+import com.google.gson.Gson
 
 class SharedPreferencesManager {
 
@@ -84,5 +87,64 @@ class SharedPreferencesManager {
                 Context.MODE_PRIVATE
             )
         return prefs.getBoolean(key, false)
+    }
+
+
+    //store the current Ui
+    fun setAppCurrentUi(applicationContext: Context, ui: String) {
+        val prefs =
+            applicationContext.getSharedPreferences(
+                Constants.CURRENT_UI_PREFERENCE,
+                Context.MODE_PRIVATE
+            )
+        prefs.edit().putString(Constants.PREF_CURRENT_UI_KEY, ui).apply()
+    }
+
+    fun getAppCurrentUi(applicationContext: Context): String? {
+        val prefs =
+            applicationContext.getSharedPreferences(
+                Constants.CURRENT_UI_PREFERENCE,
+                Context.MODE_PRIVATE
+            )
+        return prefs.getString(Constants.PREF_CURRENT_UI_KEY, Constants.DEFAULT_UI)
+    }
+
+
+    //store checked in information
+    fun saveCheckedInInfo(
+        applicationContext: Context,
+        checkedInInfo: CheckedInInfo
+    ) {
+        val prefs =
+            applicationContext.getSharedPreferences(
+                Constants.CHECKED_IN_PREFERENCE,
+                Context.MODE_PRIVATE
+            )
+
+        prefs.edit().apply {
+            putString(Constants.PREF_CHECKED_IN_PLACE_NAME_KEY, Gson().toJson(checkedInInfo))
+        }.apply()
+
+//        prefs.edit().apply {
+//            putString(Constants.PREF_CHECKED_IN_PLACE_NAME_KEY, checkedInInfo.placeName)
+//            putInt(Constants.PREF_CHECKED_IN_PLACE_ICON_KEY, checkedInInfo.placeIcon)
+//            putString(Constants.PREF_CHECKED_IN_PLACE_BRANCH_KEY, checkedInInfo.branchName)
+//        }.apply()
+    }
+
+    fun getCheckedInInfo(applicationContext: Context): CheckedInInfo? {
+        val prefs =
+            applicationContext.getSharedPreferences(
+                Constants.CHECKED_IN_PREFERENCE,
+                Context.MODE_PRIVATE
+            )
+
+        return Gson().fromJson(prefs.getString(Constants.PREF_CHECKED_IN_PLACE_NAME_KEY, null),CheckedInInfo::class.java)
+
+//        return prefs.apply {
+//            getString(Constants.PREF_CHECKED_IN_PLACE_NAME_KEY, "no place yet")
+//            getInt(Constants.PREF_CHECKED_IN_PLACE_ICON_KEY, 0)
+//            getString(Constants.PREF_CHECKED_IN_PLACE_BRANCH_KEY, "no branch yet")
+//        }
     }
 }

@@ -6,7 +6,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.lifecycle.ViewModelProvider
+import com.abumadi.sawaapp.CheckedInInfo
 import com.abumadi.sawaapp.sharedpreference.SharedPreferencesManager
 import com.abumadi.sawaapp.di.component.DaggerAppComponent
 import com.abumadi.sawaapp.di.modules.AppModule
@@ -18,10 +20,9 @@ import com.abumadi.sawaapp.others.Constants
 import com.abumadi.sawaapp.others.TimerService
 import kotlin.math.roundToInt
 
-//TODO can not make observe live data from view model cuz setTheme function didn't accept to set inside live data observer
 open class BaseActivity : AppCompatActivity() {
 
-    lateinit var baseViewModel: BaseViewModel
+    private lateinit var baseViewModel: BaseViewModel
 
     @Inject
     lateinit var sharedPreference: SharedPreferencesManager
@@ -33,6 +34,11 @@ open class BaseActivity : AppCompatActivity() {
     private lateinit var serviceIntent: Intent
     private var time = 0.0
     var timerStarted = false
+
+    var checkInInfo: CheckedInInfo? = null
+    var placeName: String? = null
+    var branchName: String? = null
+    var placeIcon: Int? = null
 
     val homeBinding: ActivityHomeBinding by lazy {
         ActivityHomeBinding.inflate(layoutInflater)
@@ -55,6 +61,21 @@ open class BaseActivity : AppCompatActivity() {
     private fun updateAppThemeAndLanguage() {
         setUpApplicationTheme()
         setUpApplicationLanguage()
+        setUpCurrentUi()
+    }
+
+    private fun setUpCurrentUi() {
+        baseViewModel.setAppCurrentUi()
+        val defaultUi = baseViewModel.getDefaultUi()
+        defaultUi(defaultUi)
+        val currentUi = baseViewModel.getCurrentUi()
+        sharedPreference.setAppCurrentUi(applicationContext, currentUi ?: "")
+    }
+
+    private fun defaultUi(defaultUi: Boolean?) {
+        if (defaultUi == true) {
+            sharedPreference.setAppCurrentUi(applicationContext, Constants.BUTTON_UI)
+        }
     }
 
     private fun setUpApplicationTheme() {
@@ -100,6 +121,7 @@ open class BaseActivity : AppCompatActivity() {
 
     //recreate the activity
     fun recreateActivity() {
+
         val intent = Intent(this, this::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 

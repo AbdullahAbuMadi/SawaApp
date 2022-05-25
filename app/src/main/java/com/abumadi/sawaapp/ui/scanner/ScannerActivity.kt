@@ -1,6 +1,5 @@
 package com.abumadi.sawaapp.ui.scanner
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -8,9 +7,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
+import com.abumadi.sawaapp.CheckedInInfo
 import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.databinding.ActivityScannerBinding
+import com.abumadi.sawaapp.others.Constants
 import com.abumadi.sawaapp.ui.base.BaseActivity
 import com.abumadi.sawaapp.ui.home.HomeActivity
 import com.budiyev.android.codescanner.AutoFocusMode
@@ -19,7 +19,6 @@ import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.delay
 
 private const val CAMERA_REQUEST_CODE = 101
 
@@ -27,9 +26,6 @@ class ScannerActivity : BaseActivity() {
 
     private lateinit var codeScanner: CodeScanner
     private lateinit var binding: ActivityScannerBinding
-    private var placeName: String? = null
-    private var branchName: String? = null
-    private var placeIcon: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +61,10 @@ class ScannerActivity : BaseActivity() {
             //Callbacks
             decodeCallback = DecodeCallback {
                 runOnUiThread {
-                    val builder = MaterialAlertDialogBuilder(this@ScannerActivity,R.style.MyThemeOverlayAlertDialog)
+                    val builder = MaterialAlertDialogBuilder(
+                        this@ScannerActivity,
+                        R.style.MyThemeOverlayAlertDialog
+                    )
                     //set message for alert dialog
                     builder.setMessage(getString(R.string.dialog_message))
                     if (it.text == "Starbucks Amman Branch") {
@@ -85,11 +84,16 @@ class ScannerActivity : BaseActivity() {
 
                     //performing positive action
                     builder.setPositiveButton(getString(R.string.yes_dilog_click)) { _, _ ->
+                        val checkedInInfo =
+                            CheckedInInfo(placeName ?: "", placeIcon?:0, branchName ?: "", homeBinding.includeCheckedInPlace.durationCounterTv.text.toString(), "00")
                         val intent = Intent(this@ScannerActivity, HomeActivity::class.java)
-                        intent.putExtra("placeIcon", placeIcon)
-                        intent.putExtra("placeName", placeName)
-                        intent.putExtra("branchName", branchName)
+                        intent.putExtra("checkedInInfo", checkedInInfo)
                         startActivity(intent)
+                        sharedPreference.setAppCurrentUi(
+                            applicationContext,
+                            Constants.CHECK_IN_LAYOUT_UI
+                        )
+                        sharedPreference.saveCheckedInInfo(applicationContext, checkedInInfo)
                         finish()
                     }
 
