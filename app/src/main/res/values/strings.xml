@@ -44,6 +44,8 @@
     <string name="cancel">Cancel</string>
     <string name="dialog_message">Click YES To Check_In</string>
     <string name="yes_dilog_click">Yes</string>
+    <string name="duration_time" translatable="false">00 : 00 : 00</string>
+    <string name="check_in_time_text" translatable="false">15:21</string>
 
 
 </resources>

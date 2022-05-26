@@ -43,6 +43,8 @@ open class BaseActivity : AppCompatActivity() {
         ActivityHomeBinding.inflate(layoutInflater)
     }
 
+    var checkedInInfo: CheckedInInfo? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
@@ -171,10 +173,10 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     private fun makeTimeString(hour: Int, min: Int, sec: Int): String =
-        String.format("%02d:%02d:%02d", hour, min, sec)
+        String.format(" %02d :%02d :%02d", hour, min, sec)
 
     private fun makeTimeStringWithOutSeconds(hour: Int, min: Int): String =
-        String.format("%02d:%02d", hour, min)
+        String.format(" %02d :%02d", hour, min)
 
     override fun onBackPressed() {
         stopTimer()

@@ -2,6 +2,7 @@ package com.abumadi.sawaapp.sharedpreference
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import com.abumadi.sawaapp.data.source.CheckedInInfo
 import com.abumadi.sawaapp.others.Constants
 import org.junit.Before
 import org.junit.Test
@@ -10,15 +11,17 @@ import org.robolectric.RobolectricTestRunner
 import org.junit.Assert.*
 
 
-
 const val FAKE_THEME = "pink"
 const val FAKE_LANGUAGE = "eng"
+const val FAKE_Ui = "button"
 const val FAKE_THEME_CHECKBOX_KEY = "theme key"
 const val FAKE_LANGUAGE_CHECKBOX_KEY = "language key"
+val FAKE_CHECKED_INFO = CheckedInInfo("test", 0, "test", "test", "test")
 
 
 const val FAKE_DEFAULT_THEME = Constants.DEFAULT_THEME
 const val FAKE_DEFAULT_LANGUAGE = Constants.DEFAULT_LANGUAGE
+const val FAKE_DEFAULT_Ui = Constants.DEFAULT_UI
 
 @RunWith(RobolectricTestRunner::class)
 class SharedPreferencesManagerTest {
@@ -31,7 +34,6 @@ class SharedPreferencesManagerTest {
         context =
             getApplicationContext()//or InstrumentationRegistry.getInstrumentation().targetContext//for tests
         sharedPreferencesDb = SharedPreferencesManager()
-
     }
 
     //testcases
@@ -133,5 +135,38 @@ class SharedPreferencesManagerTest {
         val result =
             sharedPreferencesDb.getLanguagesCheckBoxState(context, FAKE_LANGUAGE_CHECKBOX_KEY)
         assertEquals(result, false)
+    }
+
+    //5-setAppCurrentUi
+    //if ui saved successfully_get ui result will be same ui saved
+    @Test
+    fun setAppCurrentUi_ifUiSavedSuccessfully_getUiResultWillBeSameUiSaved() {
+        sharedPreferencesDb.setAppCurrentUi(context, FAKE_Ui)
+        val result = sharedPreferencesDb.getAppCurrentUi(context)
+        assertEquals(FAKE_Ui, result)
+    }
+
+    //if ui saved failed ui result will not be same ui saved
+    @Test
+    fun setAppCurrentUi_ifUiSavedFailed_getUiResultWillNotBeSameUiSavedBefore() {
+        sharedPreferencesDb.setAppCurrentUi(context, "")
+        val result = sharedPreferencesDb.getAppCurrentUi(context)
+        assertNotEquals(FAKE_Ui, result)
+    }
+
+    //if no ui saved _get ui result will be default ui
+    @Test
+    fun setAppCurrentUi_ifNoUiSavedAtFirstTimeAppLaunching_getUiResultWillBeDefaultUi() {
+        val result = sharedPreferencesDb.getAppCurrentUi(context)
+        assertEquals(FAKE_DEFAULT_Ui, result)
+    }
+
+    //6-saveCheckedInInfo
+    //if CheckedInInfo object saved successfully_get object result will be same object saved
+    @Test
+    fun saveCheckedInInfo_ifCheckedInInfoObjectSavedSuccessfully_getObjectResultWillBeSameObject() {
+        sharedPreferencesDb.saveCheckedInInfo(context, FAKE_CHECKED_INFO)
+        val result = sharedPreferencesDb.getCheckedInInfo(context)
+        assertEquals(FAKE_CHECKED_INFO, result)
     }
 }

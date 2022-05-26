@@ -84,8 +84,13 @@ class ScannerActivity : BaseActivity() {
 
                     //performing positive action
                     builder.setPositiveButton(getString(R.string.yes_dilog_click)) { _, _ ->
-                        val checkedInInfo =
-                            CheckedInInfo(placeName ?: "", placeIcon?:0, branchName ?: "", homeBinding.includeCheckedInPlace.durationCounterTv.text.toString(), "00")
+                        checkedInInfo = CheckedInInfo(
+                            placeName ?: "",
+                            placeIcon ?: 0,
+                            branchName ?: "",
+                            "0.0",
+                            "00"
+                        )
                         val intent = Intent(this@ScannerActivity, HomeActivity::class.java)
                         intent.putExtra("checkedInInfo", checkedInInfo)
                         startActivity(intent)

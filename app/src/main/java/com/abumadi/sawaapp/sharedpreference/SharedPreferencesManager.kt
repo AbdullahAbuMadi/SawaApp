@@ -112,7 +112,7 @@ class SharedPreferencesManager {
     //store checked in information
     fun saveCheckedInInfo(
         applicationContext: Context,
-        checkedInInfo: CheckedInInfo
+        checkedInInfo: CheckedInInfo?
     ) {
         val prefs =
             applicationContext.getSharedPreferences(

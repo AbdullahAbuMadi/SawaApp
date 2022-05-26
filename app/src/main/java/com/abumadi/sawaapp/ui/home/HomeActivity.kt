@@ -341,7 +341,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
 
             R.id.check_out_cv -> {
-                stopTimer()
                 checkoutDialogBinding.spentTimeDialog.text =
                     homeBinding.includeCheckedInPlace.durationCounterTv.text
                 checkoutDialog.show()
@@ -362,6 +361,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 stopTimer()
             }
             R.id.checkout_btn_dialog -> {
+                stopTimer()
                 checkoutDialog.cancel()
                 ratingDialog.show()
                 Toast.makeText(this@HomeActivity, "checked_out", Toast.LENGTH_SHORT).show()
@@ -411,7 +411,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         )
         checkoutDialogBinding.placeNameTvDialog.text =
             "${sharedPreference.getCheckedInInfo(this)?.placeName}"
-        checkoutDialogBinding.branchNameTvDialog.text =  "${sharedPreference.getCheckedInInfo(this)?.branchName}"
+        checkoutDialogBinding.branchNameTvDialog.text =
+            "${sharedPreference.getCheckedInInfo(this)?.branchName}"
     }
 
     private fun setUpRatingDialogBuilder(): MaterialAlertDialogBuilder {

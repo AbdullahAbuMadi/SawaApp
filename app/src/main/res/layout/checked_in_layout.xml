@@ -203,7 +203,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.75"
                         android:fontFamily="@font/poppins"
-                        android:text=" 00 : 00 : 00"
+                        android:text="@string/duration_time"
                         android:textColor="#13275E"
                         android:textSize="14sp" />
 
@@ -221,7 +221,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins"
-                        android:text=" 15:21"
+                        android:text="@string/check_in_time_text"
                         android:textColor="#13275E"
                         android:textSize="14sp" />
 
