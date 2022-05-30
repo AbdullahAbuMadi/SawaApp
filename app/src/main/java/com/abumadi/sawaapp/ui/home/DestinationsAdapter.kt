@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.abumadi.sawaapp.data.models.DestinationModel
 import com.abumadi.sawaapp.databinding.DestinationItemBinding
 
+//TODO: let's convert this to Groupie
 class DestinationsAdapter(
     private val context: Context,
     private val destinationItems: ArrayList<DestinationModel>

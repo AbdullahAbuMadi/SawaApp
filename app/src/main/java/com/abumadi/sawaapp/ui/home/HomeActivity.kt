@@ -151,6 +151,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         homeBinding.includeBottomSheet.destinationRv.adapter =
             DestinationsAdapter(this, Destinations.getDestinationsList(this))
         //to solve two recyclerview in same bottomSheet problem
+        //TODO: this can be done through xml
         androidx.core.view.ViewCompat.setNestedScrollingEnabled(
             homeBinding.includeBottomSheet.destinationRv,
             false

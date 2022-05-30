@@ -67,6 +67,7 @@ class ScannerActivity : BaseActivity() {
                     )
                     //set message for alert dialog
                     builder.setMessage(getString(R.string.dialog_message))
+                    //TODO: what if we have multiple places to check in, and we don't them previously, please make this dynamic
                     if (it.text == "Starbucks Amman Branch") {
                         builder.setTitle("${it.text}!")
                         placeIcon = R.drawable.starbucks_icon
@@ -109,6 +110,7 @@ class ScannerActivity : BaseActivity() {
         }
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
             runOnUiThread {
+                //TODO: let's make this descriptive and meaningful to the user, like showing an error dialog or a toast
                 Log.e("Scanner", "Camera initialization error : ${it.message}")
             }
         }

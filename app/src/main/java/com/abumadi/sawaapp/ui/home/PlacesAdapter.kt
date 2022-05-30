@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.abumadi.sawaapp.data.models.PlacesModel
 import com.abumadi.sawaapp.databinding.PlacesItemBinding
 
+//TODO: let's convert this to Groupie
 class PlacesAdapter(private val context: Context, private val placesItems: ArrayList<PlacesModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

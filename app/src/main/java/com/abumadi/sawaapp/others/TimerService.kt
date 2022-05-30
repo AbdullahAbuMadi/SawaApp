@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 import java.util.*
 
+//TODO: nice work to use this TimeService , but can we use WorkManager's scheduled task instead, AFAIK, coroutines are supported with WorkManager
 class TimerService : Service()
 {
     override fun onBind(p0: Intent?): IBinder? = null
