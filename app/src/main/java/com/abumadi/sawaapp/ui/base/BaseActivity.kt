@@ -37,7 +37,7 @@ open class BaseActivity : AppCompatActivity() {
     var checkInInfo: CheckedInInfo? = null
     var placeName: String? = null
     var branchName: String? = null
-    var placeIcon: Int? = null
+    var placeIcon: String? = null
 
     val homeBinding: ActivityHomeBinding by lazy {
         ActivityHomeBinding.inflate(layoutInflater)

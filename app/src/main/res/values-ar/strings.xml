@@ -38,7 +38,7 @@
     <string name="check_out_btn">تسجيل الخروج</string>
     <string name="cancel">الغاء</string>
     <string name="yes_dilog_click">حسنا</string>
-    <string name="dialog_message">اضغط "حسنا" لتسجيل الدخول</string>
+    <string name="dialog_message"> فضلا اضغط "حسنا" لتسجيل الدخول</string>
 
 
 </resources>

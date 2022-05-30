@@ -2,6 +2,7 @@ package com.abumadi.sawaapp.others
 
 object Constants {
 
+    const val MOCK_BASE_URL = "https://run.mocky.io/v3/"
     const val THEME_PREFERENCES = "theme preferences"
     const val THEMES_CHECKBOX_PREFERENCES = "themes check box preferences"
     const val LANGUAGES_PREFERENCES = "languages preferences"
@@ -34,8 +35,6 @@ object Constants {
     const val PREF_CHECKED_IN_PLACE_BRANCH_KEY = "checked in key"
 //    const val PREF_CHECKED_IN_PLACE_KEY = "checked in key"
 //    const val PREF_CHECKED_IN_PLACE_KEY = "checked in key"
-
-
 
 
 }

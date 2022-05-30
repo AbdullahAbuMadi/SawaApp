@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import coil.load
 import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.data.constantsclasses.Destinations
 import com.abumadi.sawaapp.data.constantsclasses.Places
@@ -25,8 +26,10 @@ import com.abumadi.sawaapp.databinding.RatingDialogBinding
 import com.abumadi.sawaapp.others.Constants
 import com.abumadi.sawaapp.ui.base.BaseActivity
 import com.abumadi.sawaapp.ui.scanner.ScannerActivity
+import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
+import com.xwray.groupie.GroupieAdapter
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, TextWatcher,
@@ -113,11 +116,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun setUpCheckedInPlaceInformation() {
-        homeBinding.includeCheckedInPlace.placeIconIv.setImageResource(
-            sharedPreference.getCheckedInInfo(
-                this
-            )?.placeIcon ?: 0
-        )
+        homeBinding.includeCheckedInPlace.placeIconIv.load(placeIcon)
+        { crossfade(true) }
         homeBinding.includeCheckedInPlace.checkedInPlaceTv.text =
             "${sharedPreference.getCheckedInInfo(this)?.placeName}"
         homeBinding.includeCheckedInPlace.placeBranchTv.text =
@@ -143,15 +143,21 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun placesRecyclerViewSetUp() {
-        homeBinding.includeBottomSheet.placesRv.adapter =
-            PlacesAdapter(this, Places.getPlacesList())
+        val groupAdapter = GroupieAdapter().apply {
+            addAll(Places.getPlacesList().map { PlacesItem(it) })
+        }
+        homeBinding.includeBottomSheet.placesRv.adapter = groupAdapter
     }
 
     private fun destinationRecyclerViewSetUp() {
+        val groupAdapter = GroupieAdapter().apply {
+            addAll(Destinations.getDestinationsList(this@HomeActivity).map { DestinationItem(it) })
+        }
         homeBinding.includeBottomSheet.destinationRv.adapter =
-            DestinationsAdapter(this, Destinations.getDestinationsList(this))
+            groupAdapter
         //to solve two recyclerview in same bottomSheet problem
         //TODO: this can be done through xml
+        //without this line just one recyclerview will be scrollable in bottom sheet
         androidx.core.view.ViewCompat.setNestedScrollingEnabled(
             homeBinding.includeBottomSheet.destinationRv,
             false
@@ -393,9 +399,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun setUpRatingDialog() {
         ratingDialog = setUpRatingDialogBuilder().create()
-        ratingDialogBinding.ratingIv.setImageResource(
-            sharedPreference.getCheckedInInfo(this)?.placeIcon ?: 0
-        )
+        ratingDialogBinding.ratingIv.load(sharedPreference.getCheckedInInfo(this)?.placeIcon ?: "")
         ratingDialogBinding.placeNameTvDialogRating.text =
             "${sharedPreference.getCheckedInInfo(this)?.placeName}"
         ratingDialogBinding.ratingBar.setOnRatingBarChangeListener { ratingBar, rating, b ->
@@ -407,8 +411,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun setUpCheckoutDialog() {
         checkoutDialog = setUpCheckoutDialogBuilder().create()
-        checkoutDialogBinding.checkoutIv.setImageResource(
-            sharedPreference.getCheckedInInfo(this)?.placeIcon ?: 0
+        checkoutDialogBinding.checkoutIv.load(
+            sharedPreference.getCheckedInInfo(this)?.placeIcon ?: ""
         )
         checkoutDialogBinding.placeNameTvDialog.text =
             "${sharedPreference.getCheckedInInfo(this)?.placeName}"

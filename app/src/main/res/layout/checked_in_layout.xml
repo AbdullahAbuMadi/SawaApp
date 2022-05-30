@@ -87,8 +87,8 @@
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
                         android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
                         android:weightSum="2">
 
                         <com.google.android.material.textview.MaterialTextView
@@ -107,7 +107,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1.9"
                             android:fontFamily="@font/poppins"
-                            android:text=" Starbucks Abdoun"
+                            android:text=" Starbucks Abdoun Starbucks Abdoun Starbucks Abdoun"
                             android:textColor="#353E83"
                             android:textSize="14sp" />
 
@@ -125,7 +125,7 @@
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="10dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 

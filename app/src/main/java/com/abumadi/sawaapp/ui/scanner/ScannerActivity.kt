@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.abumadi.sawaapp.data.source.CheckedInInfo
 import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.databinding.ActivityScannerBinding
@@ -26,6 +27,10 @@ class ScannerActivity : BaseActivity() {
 
     private lateinit var codeScanner: CodeScanner
     private lateinit var binding: ActivityScannerBinding
+
+    private val scannerViewModel: ScannerViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory).get(ScannerViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,36 +63,27 @@ class ScannerActivity : BaseActivity() {
             isAutoFocusEnabled = true // Whether to enable auto focus or not
             isFlashEnabled = false // Whether to enable flash or not
 
+            //TODO: what if we have multiple places to check in, and we don't them previously, please make this dynamic
             //Callbacks
             decodeCallback = DecodeCallback {
                 runOnUiThread {
+                    scannerViewModel.getCheckedInInfo(it.text.toString() ?: "")
+                    scannerViewModel.checkedInInfo.observe(this@ScannerActivity) {
+                        placeIcon = it.placeImage
+                        placeName = it.placeName
+                        branchName = it.placeBranch
+                    }
                     val builder = MaterialAlertDialogBuilder(
                         this@ScannerActivity,
                         R.style.MyThemeOverlayAlertDialog
                     )
-                    //set message for alert dialog
                     builder.setMessage(getString(R.string.dialog_message))
-                    //TODO: what if we have multiple places to check in, and we don't them previously, please make this dynamic
-                    if (it.text == "Starbucks Amman Branch") {
-                        builder.setTitle("${it.text}!")
-                        placeIcon = R.drawable.starbucks_icon
-                        placeName = "Starbucks"
-                        branchName = "Starbucks Amman"
-                        builder.setIcon(placeIcon ?: 0)
-
-                    } else {
-                        builder.setTitle("${it.text}!")
-                        placeIcon = R.drawable.carefour_icon
-                        placeName = "Carrefour"
-                        branchName = "Carrefour CityMall"
-                        builder.setIcon(placeIcon ?: 0)
-                    }
 
                     //performing positive action
                     builder.setPositiveButton(getString(R.string.yes_dilog_click)) { _, _ ->
                         checkedInInfo = CheckedInInfo(
                             placeName ?: "",
-                            placeIcon ?: 0,
+                            placeIcon?:"",
                             branchName ?: "",
                             "0.0",
                             "00"
@@ -112,6 +108,8 @@ class ScannerActivity : BaseActivity() {
             runOnUiThread {
                 //TODO: let's make this descriptive and meaningful to the user, like showing an error dialog or a toast
                 Log.e("Scanner", "Camera initialization error : ${it.message}")
+                Toast.makeText(this, "your camera can not start scan", Toast.LENGTH_LONG)
+                    .show()
             }
         }
 
