@@ -6,9 +6,11 @@ object Constants {
     const val THEME_PREFERENCES = "theme preferences"
     const val THEMES_CHECKBOX_PREFERENCES = "themes check box preferences"
     const val LANGUAGES_PREFERENCES = "languages preferences"
+    const val TIMER_PREFERENCES = "timer preferences"
     const val LANGUAGES_CHECKBOX_PREFERENCES = " languages check box preferences"
     const val PREF_THEME_KEY = "theme"
     const val PREF_LANGUAGE_KEY = "language"
+    const val PREF_TIMER_KEY = "timer"
     const val PREF_CURRENT_UI_KEY = "current ui key"
 
     const val ARABIC_LANGUAGE_LOCALE = "ar"

@@ -34,11 +34,6 @@ open class BaseActivity : AppCompatActivity() {
     private var time = 0.0
     var timerStarted = false
 
-    var checkInInfo: CheckedInInfo? = null
-    var placeName: String? = null
-    var branchName: String? = null
-    var placeIcon: String? = null
-
     val homeBinding: ActivityHomeBinding by lazy {
         ActivityHomeBinding.inflate(layoutInflater)
     }

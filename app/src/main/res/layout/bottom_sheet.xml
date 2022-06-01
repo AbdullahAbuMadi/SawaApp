@@ -71,6 +71,7 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:padding="10dp"
+        android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="@+id/search_box_cv"
         app:layout_constraintStart_toStartOf="@+id/search_box_cv"

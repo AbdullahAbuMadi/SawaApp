@@ -28,6 +28,10 @@ class ScannerActivity : BaseActivity() {
     private lateinit var codeScanner: CodeScanner
     private lateinit var binding: ActivityScannerBinding
 
+    var placeName: String? = null
+    var branchName: String? = null
+    var placeIcon: String? = null
+
     private val scannerViewModel: ScannerViewModel by lazy {
         ViewModelProvider(this, viewModelFactory).get(ScannerViewModel::class.java)
     }
@@ -63,7 +67,6 @@ class ScannerActivity : BaseActivity() {
             isAutoFocusEnabled = true // Whether to enable auto focus or not
             isFlashEnabled = false // Whether to enable flash or not
 
-            //TODO: what if we have multiple places to check in, and we don't them previously, please make this dynamic
             //Callbacks
             decodeCallback = DecodeCallback {
                 runOnUiThread {
@@ -106,7 +109,6 @@ class ScannerActivity : BaseActivity() {
         }
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
             runOnUiThread {
-                //TODO: let's make this descriptive and meaningful to the user, like showing an error dialog or a toast
                 Log.e("Scanner", "Camera initialization error : ${it.message}")
                 Toast.makeText(this, "your camera can not start scan", Toast.LENGTH_LONG)
                     .show()

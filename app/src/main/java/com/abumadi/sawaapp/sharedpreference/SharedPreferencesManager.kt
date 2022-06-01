@@ -132,7 +132,29 @@ class SharedPreferencesManager {
                 Context.MODE_PRIVATE
             )
 
-        return Gson().fromJson(prefs.getString(Constants.PREF_CHECKED_IN_PLACE_NAME_KEY, null),
-            CheckedInInfo::class.java)
+        return Gson().fromJson(
+            prefs.getString(Constants.PREF_CHECKED_IN_PLACE_NAME_KEY, null),
+            CheckedInInfo::class.java
+        )
+    }
+
+    //store timer
+    fun saveTimer(applicationContext: Context, timer: Int) {
+        val prefs =
+            applicationContext.getSharedPreferences(
+                Constants.TIMER_PREFERENCES,
+                Context.MODE_PRIVATE
+            )
+        prefs.edit().clear().apply()
+        prefs.edit().putInt(Constants.PREF_TIMER_KEY, timer).apply()
+    }
+
+    fun getTimer(applicationContext: Context): Int {
+        val prefs =
+            applicationContext.getSharedPreferences(
+                Constants.TIMER_PREFERENCES,
+                Context.MODE_PRIVATE
+            )
+        return prefs.getInt(Constants.PREF_TIMER_KEY, 0)
     }
 }
