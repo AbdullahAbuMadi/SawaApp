@@ -20,6 +20,8 @@ import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.text.SimpleDateFormat
+import java.util.*
 
 private const val CAMERA_REQUEST_CODE = 101
 
@@ -27,10 +29,6 @@ class ScannerActivity : BaseActivity() {
 
     private lateinit var codeScanner: CodeScanner
     private lateinit var binding: ActivityScannerBinding
-
-    var placeName: String? = null
-    var branchName: String? = null
-    var placeIcon: String? = null
 
     private val scannerViewModel: ScannerViewModel by lazy {
         ViewModelProvider(this, viewModelFactory).get(ScannerViewModel::class.java)
@@ -75,6 +73,8 @@ class ScannerActivity : BaseActivity() {
                         placeIcon = it.placeImage
                         placeName = it.placeName
                         branchName = it.placeBranch
+                        duration = 0.0
+                        checkInTime = SimpleDateFormat("HH:mm", Locale.ENGLISH).format(Date())
                     }
                     val builder = MaterialAlertDialogBuilder(
                         this@ScannerActivity,
@@ -86,13 +86,12 @@ class ScannerActivity : BaseActivity() {
                     builder.setPositiveButton(getString(R.string.yes_dilog_click)) { _, _ ->
                         checkedInInfo = CheckedInInfo(
                             placeName ?: "",
-                            placeIcon?:"",
+                            placeIcon ?: "",
                             branchName ?: "",
-                            "0.0",
-                            "00"
+                            duration ?: 0.0,
+                            checkInTime ?:""
                         )
                         val intent = Intent(this@ScannerActivity, HomeActivity::class.java)
-                        intent.putExtra("checkedInInfo", checkedInInfo)
                         startActivity(intent)
                         sharedPreference.setAppCurrentUi(
                             applicationContext,
@@ -110,7 +109,7 @@ class ScannerActivity : BaseActivity() {
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
             runOnUiThread {
                 Log.e("Scanner", "Camera initialization error : ${it.message}")
-                Toast.makeText(this, "your camera can not start scan", Toast.LENGTH_LONG)
+                Toast.makeText(this, "please allow this App to use your camera before", Toast.LENGTH_LONG)
                     .show()
             }
         }

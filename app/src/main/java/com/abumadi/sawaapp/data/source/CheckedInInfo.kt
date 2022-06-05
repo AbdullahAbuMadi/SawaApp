@@ -8,6 +8,6 @@ data class CheckedInInfo(
     val placeName: String,
     val placeIcon: String? = null,
     val branchName: String,
-    val duration: String,
+    val duration: Double,
     val checkInTime: String
 ) : Parcelable

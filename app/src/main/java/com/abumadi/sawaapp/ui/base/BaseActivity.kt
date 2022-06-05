@@ -1,22 +1,20 @@
 package com.abumadi.sawaapp.ui.base
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.data.source.CheckedInInfo
-import com.abumadi.sawaapp.sharedpreference.SharedPreferencesManager
+import com.abumadi.sawaapp.databinding.ActivityHomeBinding
 import com.abumadi.sawaapp.di.component.DaggerAppComponent
 import com.abumadi.sawaapp.di.modules.AppModule
+import com.abumadi.sawaapp.others.Constants
+import com.abumadi.sawaapp.sharedpreference.SharedPreferencesManager
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-import com.abumadi.sawaapp.R
-import com.abumadi.sawaapp.databinding.ActivityHomeBinding
-import com.abumadi.sawaapp.others.Constants
-import com.abumadi.sawaapp.others.TimerService
 import kotlin.math.roundToInt
 
 open class BaseActivity : AppCompatActivity() {
@@ -30,9 +28,13 @@ open class BaseActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     //stop watch
-    private lateinit var serviceIntent: Intent
-    private var time = 0.0
     var timerStarted = false
+
+    var placeName: String? = null
+    var branchName: String? = null
+    var placeIcon: String? = null
+    var duration: Double? = null
+    var checkInTime: String? = null
 
     val homeBinding: ActivityHomeBinding by lazy {
         ActivityHomeBinding.inflate(layoutInflater)
@@ -45,6 +47,8 @@ open class BaseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_base)
         daggerComponentSetUp()
         baseViewModel = ViewModelProvider(this, viewModelFactory).get(BaseViewModel::class.java)
+        duration = sharedPreference.getCheckedInInfo(applicationContext)?.duration
+        checkInTime = sharedPreference.getCheckedInInfo(applicationContext)?.checkInTime
         updateAppThemeAndLanguage()
     }
 
@@ -100,7 +104,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun setLanguage(locale: String) {
         val config = applicationContext.resources.configuration
-        config.setLocale(Locale(locale))
+        config.setLocale(Locale(locale, "MA"))
         baseContext.resources.updateConfiguration(
             config,
             baseContext.resources.displayMetrics
@@ -117,64 +121,63 @@ open class BaseActivity : AppCompatActivity() {
 
     //recreate the activity
     fun recreateActivity() {
+        saveCheckInInfo()
 
         val intent = Intent(this, this::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-
         finish()
-        overridePendingTransition(0, 0)
         startActivity(intent)
         overridePendingTransition(0, 0)
     }
 
-    fun timerServiceSetUp() {
-        serviceIntent = Intent(applicationContext, TimerService::class.java)
-        registerReceiver(updateTime, IntentFilter(TimerService.TIMER_UPDATED))
+    private fun saveCheckInInfo() {
+        placeName = sharedPreference.getCheckedInInfo(applicationContext)?.placeName
+        placeIcon = sharedPreference.getCheckedInInfo(applicationContext)?.placeIcon
+        branchName = sharedPreference.getCheckedInInfo(applicationContext)?.branchName
+        stopTimer()
+        checkedInInfo = CheckedInInfo(
+            placeName ?: "",
+            placeIcon ?: "",
+            branchName ?: "",
+            duration ?: 0.0,
+            checkInTime ?: ""
+        )
+        sharedPreference.saveCheckedInInfo(applicationContext, checkedInInfo)
     }
 
     fun startTimer() {
-        serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
-        startService(serviceIntent)
-        timerStarted = true
-    }
-
-    fun stopTimer() {
-        stopService(serviceIntent)
-        timerStarted = false
-    }
-
-    private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
-            homeBinding.includeCheckedInPlace.durationCounterTv.text = getTimeStringFromDouble(time)
+        baseViewModel.startTimer(duration)
+        lifecycleScope.launch {
+            baseViewModel.timerStateFlow.collect {
+                homeBinding.includeCheckedInPlace.durationCounterTv.text =
+                    getTimeStringFromDouble(it)
+            }
         }
     }
 
-    fun getTimeStringFromDouble(time: Double): String {
-        val resultInt = time.roundToInt()
-        val hours = resultInt % 86400 / 3600
+    fun stopTimer() {
+        baseViewModel.stopTimer()
+        baseViewModel.lastTimeValue.observe(this) {
+            duration = it
+        }
+        homeBinding.includeCheckedInPlace.durationCounterTv.text =
+            getTimeStringFromDouble(duration)
+    }
+
+    private fun getTimeStringFromDouble(time: Double?): String {
+        val resultInt = time?.roundToInt()
+        val hours = resultInt!! % 86400 / 3600
         val minutes = resultInt % 86400 % 3600 / 60
         val seconds = resultInt % 86400 % 3600 % 60
 
         return makeTimeString(hours, minutes, seconds)
     }
 
-    fun getTimeStringFromDoubleWithoutSeconds(time: Double): String {
-        val resultInt = time.roundToInt()
-        val hours = resultInt % 86400 / 3600
-        val minutes = resultInt % 86400 % 3600 / 60
-
-        return makeTimeStringWithOutSeconds(hours, minutes)
-    }
-
     private fun makeTimeString(hour: Int, min: Int, sec: Int): String =
         String.format(" %02d :%02d :%02d", hour, min, sec)
 
-    private fun makeTimeStringWithOutSeconds(hour: Int, min: Int): String =
-        String.format(" %02d :%02d", hour, min)
-
     override fun onBackPressed() {
-        stopTimer()
+        saveCheckInInfo()
         finishAffinity()
         super.onBackPressed()
     }

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">SawaApp</string>
     <string name="tap_to_check_in">Tap To Check-In</string>
     <string name="favorites_menu">Favorites</string>
@@ -44,8 +44,14 @@
     <string name="cancel">Cancel</string>
     <string name="dialog_message"> Please click YES To Check_In</string>
     <string name="yes_dilog_click">Yes</string>
-    <string name="duration_time" translatable="false">00 : 00 : 00</string>
-    <string name="check_in_time_text" translatable="false">15:21</string>
+
+
+    <array name="autosize_text_sizes">
+        <item>12sp</item>
+        <item>20sp</item>
+        <item>40sp</item>
+        <item>100sp</item>
+    </array>
 
 
 </resources>

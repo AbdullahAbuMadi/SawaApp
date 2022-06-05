@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.work.*
 import coil.load
 import com.abumadi.sawaapp.R
 import com.abumadi.sawaapp.data.constantsclasses.Destinations
@@ -25,40 +24,15 @@ import com.abumadi.sawaapp.data.constantsclasses.Places
 import com.abumadi.sawaapp.databinding.CheckoutDialogBinding
 import com.abumadi.sawaapp.databinding.RatingDialogBinding
 import com.abumadi.sawaapp.others.Constants
-import com.abumadi.sawaapp.others.TimeWorker
 import com.abumadi.sawaapp.ui.base.BaseActivity
 import com.abumadi.sawaapp.ui.scanner.ScannerActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.xwray.groupie.GroupieAdapter
-import java.util.concurrent.TimeUnit
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, TextWatcher,
     View.OnTouchListener, View.OnClickListener {
-//    val data = Data.Builder()
-//        .putInt("number", 10)
-//        .build()
-//
-//    //to set constraints
-//    val constraints = Constraints.Builder()
-//        .setRequiredNetworkType(NetworkType.CONNECTED)
-//        .setRequiresCharging(true)
-//        .build()
-//
-//    val downloadRequest = OneTimeWorkRequest.Builder(TimeWorker::class.java)
-//        .setInputData(data)
-//        .setConstraints(constraints)
-//        .setInitialDelay(5, TimeUnit.HOURS)
-//        .addTag("download")
-//        .build()
-//
-//    val workManager=WorkManager.getInstance(this).enqueue(downloadRequest)
-//
-//
-//    val uploadWorkRequest: WorkRequest =
-//        OneTimeWorkRequestBuilder<TimeWorker>()
-//            .build()
 
     private val mDrawerLayout: DrawerLayout by lazy {
         findViewById(R.id.drawer)
@@ -128,7 +102,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             checkoutDialogBinding.checkoutBtnDialog.setOnClickListener(this)
             ratingDialogBinding.maybeLaterDialog.setOnClickListener(this)
             checkoutDialogBinding.cancelDialog.setOnClickListener(this)
-            timerServiceSetUp()
             startTimer()
             setUpCheckedInPlaceInformation()
             setUpCheckoutDialog()
@@ -146,8 +119,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             "${sharedPreference.getCheckedInInfo(this)?.placeName}"
         homeBinding.includeCheckedInPlace.placeBranchTv.text =
             "${sharedPreference.getCheckedInInfo(this)?.branchName}"
-        homeBinding.includeCheckedInPlace.systemTime.text =
-            getTimeStringFromDoubleWithoutSeconds(((System.currentTimeMillis() + 10800000) / 1000).toDouble())
+        homeBinding.includeCheckedInPlace.systemTime.text =checkInTime
     }
 
     private fun navDrawerSetUp() {
@@ -381,17 +353,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 stopTimer()
                 checkoutDialog.cancel()
                 ratingDialog.show()
-                Toast.makeText(this@HomeActivity, "checked_out", Toast.LENGTH_SHORT).show()
             }
 
             R.id.save_btn_dialog -> {
                 ratingDialog.dismiss()
-                Toast.makeText(
-                    this@HomeActivity,
-                    "You have rated ${sharedPreference.getCheckedInInfo(this)?.placeName} with : " + ratingDialogBinding.ratingBar.rating.toInt()
-                        .toString() + " stars",
-                    Toast.LENGTH_LONG
-                ).show()
                 sharedPreference.setAppCurrentUi(applicationContext, Constants.BUTTON_UI)
                 stopTimer()
                 recreateActivity()

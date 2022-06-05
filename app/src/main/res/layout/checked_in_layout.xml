@@ -40,9 +40,9 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="9dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="9dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/place_icon_iv"
@@ -79,22 +79,23 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:padding="9dp"
                     android:layout_marginBottom="8dp"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="9dp">
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
-                        android:weightSum="2">
+                        android:layout_marginTop="10dp">
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/branch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="9dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
                             android:fontFamily="@font/poppins_bold"
                             android:text="@string/branch"
                             android:textColor="#353E83"
@@ -106,8 +107,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.9"
+                            android:layout_marginStart="5dp"
+                            app:layout_constraintStart_toEndOf="@+id/branch"
+                            app:layout_constraintTop_toTopOf="parent"
                             android:fontFamily="@font/poppins"
-                            android:text=" Starbucks Abdoun Starbucks Abdoun Starbucks Abdoun"
+                            android:text="citymall"
                             android:textColor="#353E83"
                             android:textSize="14sp" />
 
@@ -115,11 +119,13 @@
                             android:id="@+id/add_to_favorite_iv"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             android:background="@drawable/circle_shadow"
                             android:padding="10dp"
                             android:src="@drawable/ic_heart" />
 
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -163,8 +169,6 @@
                             </LinearLayout>
 
                         </androidx.cardview.widget.CardView>
-
-
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -179,22 +183,23 @@
                 app:cardCornerRadius="15dp"
                 app:layout_constraintTop_toBottomOf="@+id/place_branch_cv">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:padding="9dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
+                    android:padding="9dp">
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="9dp"
                         android:fontFamily="@font/poppins"
                         android:text="@string/duration"
                         android:textColor="#13275E"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         android:textSize="14sp" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -202,35 +207,57 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.75"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="5dp"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="12sp"
+                        android:autoSizeMaxTextSize="100sp"
+                        android:autoSizeStepGranularity="2sp"
                         android:fontFamily="@font/poppins"
-                        android:text="@string/duration_time"
+                        android:textDirection="ltr"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/duration"
+                        android:text="00:00:00"
                         android:textColor="#13275E"
                         android:textSize="14sp" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/materialTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/poppins"
                         android:text="@string/check_in_time"
                         android:textColor="#13275E"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@+id/system_time"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/system_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="12sp"
+                        android:autoSizeMaxTextSize="100sp"
+                        android:autoSizeStepGranularity="2sp"
                         android:fontFamily="@font/poppins"
-                        android:text="@string/check_in_time_text"
+                        android:gravity="center_vertical"
+                        android:layout_marginEnd="9dp"
+                        android:layout_marginStart="5dp"
+                        android:text="15:00"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textDirection="ltr"
                         android:textColor="#13275E"
                         android:textSize="14sp" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
                 android:id="@+id/ll"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:orientation="horizontal"
@@ -259,8 +286,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="30dp"
-                            android:gravity="center"
                             android:fontFamily="@font/poppins"
+                            android:gravity="center"
                             android:text="@string/check_out"
                             android:textColor="#13275E"
                             android:textSize="14sp" />
@@ -331,11 +358,9 @@
                             android:textColor="#13275E"
                             android:textSize="14sp" />
 
-
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.cardview.widget.CardView>
-
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
